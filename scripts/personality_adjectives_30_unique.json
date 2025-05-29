@@ -1,0 +1,452 @@
+[
+  {
+    "word": "cheerful",
+    "translation": "ร่าเริง",
+    "definition": "Noticeably happy and optimistic.",
+    "examples": [
+      "She has a cheerful personality.",
+      "He always looks cheerful in the morning."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "patient",
+    "translation": "อดทน",
+    "definition": "Able to accept or tolerate delays or problems without becoming annoyed or anxious.",
+    "examples": [
+      "She is very patient with children.",
+      "You need to be patient when learning something new."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "creative",
+    "translation": "สร้างสรรค์",
+    "definition": "Having good imagination or original ideas.",
+    "examples": [
+      "He is very creative in designing websites.",
+      "Creative thinking helps solve problems."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "curious",
+    "translation": "ขี้สงสัย",
+    "definition": "Eager to know or learn something.",
+    "examples": [
+      "The child is curious about everything.",
+      "She has a curious mind."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "reliable",
+    "translation": "เชื่อถือได้",
+    "definition": "Consistently good in quality or performance; able to be trusted.",
+    "examples": [
+      "He is a reliable friend.",
+      "The car is old but still reliable."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "polite",
+    "translation": "สุภาพ",
+    "definition": "Having or showing good manners and respect for others.",
+    "examples": [
+      "It's polite to say thank you.",
+      "He was very polite to the guests."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "sincere",
+    "translation": "จริงใจ",
+    "definition": "Free from pretense or deceit in feelings.",
+    "examples": [
+      "She gave me a sincere apology.",
+      "He is sincere in his intentions."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "sensitive",
+    "translation": "อ่อนไหว",
+    "definition": "Quick to detect or respond to slight changes or emotions.",
+    "examples": [
+      "She is very sensitive to criticism.",
+      "This topic is sensitive for many people."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "thoughtful",
+    "translation": "ช่างคิด",
+    "definition": "Showing consideration for the needs of other people.",
+    "examples": [
+      "It was very thoughtful of you to help.",
+      "He's always thoughtful in conversations."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "confident",
+    "translation": "มั่นใจ",
+    "definition": "Feeling or showing certainty about something.",
+    "examples": [
+      "She's confident in her abilities.",
+      "He gave a confident answer."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "optimistic",
+    "translation": "มองโลกในแง่ดี",
+    "definition": "Hopeful and confident about the future.",
+    "examples": [
+      "He is optimistic about the future.",
+      "An optimistic view can improve your life."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "pessimistic",
+    "translation": "มองโลกในแง่ร้าย",
+    "definition": "Tending to see the worst aspect of things.",
+    "examples": [
+      "She has a pessimistic view of the world.",
+      "Don't be too pessimistic about your chances."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "respectful",
+    "translation": "เคารพผู้อื่น",
+    "definition": "Feeling or showing deference and respect.",
+    "examples": [
+      "He is respectful towards his teachers.",
+      "A respectful attitude goes a long way."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "funny",
+    "translation": "ตลก",
+    "definition": "Causing laughter or amusement.",
+    "examples": [
+      "He's a very funny comedian.",
+      "That was a funny joke."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "serious",
+    "translation": "จริงจัง",
+    "definition": "Acting or speaking sincerely and in earnest.",
+    "examples": [
+      "She's serious about her studies.",
+      "This is a serious matter."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "loyal",
+    "translation": "ภักดี",
+    "definition": "Giving or showing firm and constant support.",
+    "examples": [
+      "He is a loyal friend.",
+      "They remained loyal to the company."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "hardworking",
+    "translation": "ขยัน",
+    "definition": "Tending to work with energy and commitment.",
+    "examples": [
+      "She is a hardworking student.",
+      "Hardworking people are often successful."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "stubborn",
+    "translation": "ดื้อรั้น",
+    "definition": "Unwilling to change one’s mind or actions.",
+    "examples": [
+      "He's too stubborn to admit he’s wrong.",
+      "She’s a bit stubborn, but kind."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "brilliant",
+    "translation": "ฉลาดมาก",
+    "definition": "Exceptionally clever or talented.",
+    "examples": [
+      "She gave a brilliant presentation.",
+      "He's a brilliant engineer."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "humble",
+    "translation": "ถ่อมตัว",
+    "definition": "Having a modest opinion of one's importance.",
+    "examples": [
+      "He stayed humble despite the success.",
+      "She is very humble about her achievements."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "ambitious",
+    "translation": "ทะเยอทะยาน",
+    "definition": "Having a strong desire to succeed.",
+    "examples": [
+      "He’s very ambitious and wants to be a CEO.",
+      "Ambitious people often set high goals."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "jealous",
+    "translation": "ขี้อิจฉา",
+    "definition": "Feeling envy of someone’s achievements or advantages.",
+    "examples": [
+      "She gets jealous when he talks to others.",
+      "It’s normal to feel jealous sometimes."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "grumpy",
+    "translation": "อารมณ์ไม่ดี",
+    "definition": "Bad-tempered and easily annoyed.",
+    "examples": [
+      "He’s always grumpy in the morning.",
+      "The old man seemed grumpy today."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "forgiving",
+    "translation": "ให้อภัยง่าย",
+    "definition": "Ready to forgive others.",
+    "examples": [
+      "She has a forgiving nature.",
+      "He’s very forgiving, even when people hurt him."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "organized",
+    "translation": "มีระเบียบ",
+    "definition": "Arranged in a systematic way.",
+    "examples": [
+      "She's very organized with her work.",
+      "I like working with organized people."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "dependable",
+    "translation": "พึ่งพาได้",
+    "definition": "Trustworthy and reliable.",
+    "examples": [
+      "He’s a dependable coworker.",
+      "You need dependable support when working in teams."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "calm",
+    "translation": "ใจเย็น",
+    "definition": "Not showing or feeling nervousness or anger.",
+    "examples": [
+      "She remained calm during the storm.",
+      "He has a calm voice."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "enthusiastic",
+    "translation": "กระตือรือร้น",
+    "definition": "Having or showing intense enjoyment or interest.",
+    "examples": [
+      "She is enthusiastic about the new project.",
+      "They were enthusiastic fans of the band."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "wise",
+    "translation": "ฉลาดมีปัญญา",
+    "definition": "Having or showing experience, knowledge, and good judgment.",
+    "examples": [
+      "He gave some wise advice.",
+      "Wise people think before they speak."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  },
+  {
+    "word": "honorable",
+    "translation": "น่านับถือ",
+    "definition": "Deserving of respect or high regard.",
+    "examples": [
+      "He lived an honorable life.",
+      "It’s honorable to keep promises."
+    ],
+    "partOfSpeech": "adjective",
+    "category": "personality",
+    "level": 1,
+    "nextReviewDate": "2025-05-29",
+    "lastReviewedDate": "",
+    "incorrectCount": 0
+  }
+]
