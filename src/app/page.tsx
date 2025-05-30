@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import LevelChart from "@/components/quiz/LevelChart";
 import { useRouter } from "next/navigation";
-import RewardPopup from "@/components/quiz/RewardPopup"; 
+import RewardPopup from "@/components/quiz/RewardPopup";
 
 export default function Home() {
   const router = useRouter();
@@ -20,6 +20,7 @@ export default function Home() {
 
   useEffect(() => {
     setMounted(true);
+
     async function fetchLevelStats() {
       try {
         const res = await axios.get("/api/stats");
@@ -31,12 +32,18 @@ export default function Home() {
         );
 
         if (unlocked) {
-          setUnlockedLevel(unlocked.level);
+          const lastUnlocked = localStorage.getItem("lastUnlockedLevel");
+
+          if (lastUnlocked !== unlocked.level) {
+            setUnlockedLevel(unlocked.level);
+            localStorage.setItem("lastUnlockedLevel", unlocked.level);
+          }
         }
       } catch (err) {
         console.error("Error fetching stats:", err);
       }
     }
+
     fetchLevelStats();
   }, []);
 
@@ -63,26 +70,34 @@ export default function Home() {
         </>
       )}
 
-      <div className="mt-10 flex flex-col sm:flex-row gap-4">
+      <div className="mt-10 flex flex-col items-center gap-4 w-full max-w-xs">
         <button
           onClick={() => router.push("/train")}
-          className="px-8 py-3 text-lg font-extrabold text-white tracking-wide rounded-xl
-         bg-gradient-to-br from-yellow-500 via-pink-500 to-purple-600
-         shadow-[0_4px_25px_rgba(255,255,255,0.4)]
-         hover:shadow-[0_6px_30px_rgba(255,255,255,0.5)]
-         hover:scale-105 active:scale-95
-         transition-all duration-300 ease-out
-         animate-pulse border border-white/30"
+          className="w-full px-8 py-4 text-xl font-extrabold text-white rounded-2xl
+    bg-gradient-to-br from-yellow-400 via-pink-500 to-purple-600
+    shadow-[0_4px_25px_rgba(255,255,255,0.3)]
+    hover:shadow-[0_6px_30px_rgba(255,255,255,0.5)]
+    hover:scale-105 active:scale-95
+    transition-all duration-300 ease-out
+    border border-white/20 animate-pulse"
         >
           Start Today's Review
         </button>
 
-        <button
-          onClick={() => router.push("/repeat-review")}
-          className="px-8 py-3 text-lg font-bold text-white bg-orange-500 rounded-xl hover:bg-orange-600 transition"
-        >
-          🔁 Repeat Review
-        </button>
+        <div className="flex flex-col gap-3 w-full">
+          <button
+            onClick={() => router.push("/repeat-review")}
+            className="w-full px-6 py-3 text-lg font-bold text-white bg-orange-500 rounded-xl hover:bg-orange-600 transition"
+          >
+            🔁 Repeat Review
+          </button>
+          <button
+            onClick={() => router.push("/add-word")}
+            className="w-full px-6 py-3 text-lg font-bold text-white bg-green-500 rounded-xl hover:bg-green-600 transition"
+          >
+            ➕ Add Word
+          </button>
+        </div>
       </div>
     </main>
   );

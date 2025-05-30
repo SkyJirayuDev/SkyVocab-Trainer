@@ -35,8 +35,8 @@ export default function AddWordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white px-4 py-6 sm:px-6 lg:px-8">
-      <div className="max-w-md mx-auto bg-gray-50 shadow-lg rounded-2xl p-6">
+    <div className="min-h-screen px-4 py-6 sm:px-6 lg:px-8">
+      <div className="max-w-md mx-auto bg-gray-50 text-black shadow-lg rounded-2xl p-6">
         <h1 className="text-xl font-semibold text-center mb-6">Add New Word</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

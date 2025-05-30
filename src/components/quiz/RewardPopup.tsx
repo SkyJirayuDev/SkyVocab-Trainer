@@ -24,7 +24,7 @@ const RewardPopup = ({ message, onClose }: RewardPopupProps) => {
   }, [onClose]);
 
   return (
-    <div className="fixed top-8 left-1/2 -translate-x-1/2 bg-indigo-600 text-white px-6 py-3 rounded-xl shadow-xl z-50 animate-bounce">
+    <div className="fixed top-8 left-1/2 -translate-x-1/2 bg-yellow-500 text-white px-6 py-3 rounded-xl shadow-xl z-50 animate-bounce">
       <span className="text-lg font-bold">{message}</span>
     </div>
   );
