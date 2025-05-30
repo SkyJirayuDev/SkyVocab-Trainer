@@ -18,7 +18,7 @@ const RewardPopup = ({ message, onClose }: RewardPopupProps) => {
 
     const timer = setTimeout(() => {
       onClose();
-    }, 2500); // auto-close in 2.5s
+    }, 2500); 
 
     return () => clearTimeout(timer);
   }, [onClose]);

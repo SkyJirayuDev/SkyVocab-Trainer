@@ -1,6 +1,8 @@
-"use client"
+'use client'
 
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Volume2 } from 'lucide-react' 
 
 interface ListeningProps {
   word: string
@@ -13,10 +15,14 @@ export default function Listening({ word, choices, onNext }: ListeningProps) {
   const [answered, setAnswered] = useState(false)
 
   useEffect(() => {
+    playSound()
+  }, [word])
+
+  const playSound = () => {
     const utterance = new SpeechSynthesisUtterance(word)
     utterance.lang = "en-US"
     speechSynthesis.speak(utterance)
-  }, [word])
+  }
 
   const handleSelect = (option: string) => {
     if (!answered) {
@@ -31,30 +37,54 @@ export default function Listening({ word, choices, onNext }: ListeningProps) {
   }
 
   return (
-    <div className="max-w-md mx-auto space-y-4">
-      <p className="text-center">Listen and choose the correct word</p>
+    <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-6">
+      <p className="text-lg font-semibold text-white bg-indigo-600 px-6 py-3 rounded-xl shadow">
+        Listen and choose the correct word
+      </p>
+
       <button
-        onClick={() => {
-          const u = new SpeechSynthesisUtterance(word)
-          u.lang = "en-US"
-          speechSynthesis.speak(u)
-        }}
-        className="w-full bg-gray-200 py-2 rounded-lg hover:bg-gray-300"
-      >🔊 Replay Sound</button>
-      <div className="grid grid-cols-1 gap-3">
+        onClick={playSound}
+        className="flex items-center gap-2 bg-white hover:bg-indigo-100 text-indigo-600 font-semibold px-4 py-2 rounded-xl shadow transition"
+      >
+        <Volume2 size={20} /> Replay Sound
+      </button>
+
+      <div className="grid grid-cols-1 gap-4 w-full max-w-sm">
         {choices.map((opt, i) => (
           <button
             key={i}
             onClick={() => handleSelect(opt)}
-            className={`w-full py-2 px-4 rounded-lg text-left border transition-all
-              ${answered && opt === word ? 'bg-green-100 border-green-600' : ''}
-              ${answered && opt === selected && opt !== word ? 'bg-red-100 border-red-600' : ''}
-              ${!answered ? 'hover:bg-gray-100' : ''}`}
+            disabled={answered}
+            className={`w-full py-3 px-4 rounded-xl text-lg font-medium border transition-all
+              ${
+                answered
+                  ? opt === word
+                    ? 'bg-green-100 border-green-500 text-green-800'
+                    : opt === selected
+                    ? 'bg-red-100 border-red-500 text-red-800'
+                    : 'bg-gray-100 text-gray-500'
+                  : 'bg-white hover:bg-indigo-50 text-black'
+              }`}
           >
             {opt}
           </button>
         ))}
       </div>
+
+      <AnimatePresence>
+        {answered && (
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className={`text-lg font-bold ${
+              selected === word ? 'text-green-500' : 'text-red-500'
+            }`}
+          >
+            {selected === word ? 'Correct!' : `Wrong. Answer: ${word}`}
+          </motion.p>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

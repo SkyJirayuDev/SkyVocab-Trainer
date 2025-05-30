@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Flashcard from './Flashcard'
 import MultipleChoice from './MultipleChoice'
 import FillInBlank from './FillInBlank'
@@ -23,7 +24,12 @@ interface Word {
 
 const quizTypes = ['flashcard', 'multiple', 'fill', 'typing', 'listening']
 
-export default function QuizPage() {
+interface Props {
+  mode?: 'repeat' | 'today' 
+}
+
+export default function QuizPage({ mode = 'today' }: Props) {
+  const router = useRouter()
   const [words, setWords] = useState<Word[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [quizTypeIndex, setQuizTypeIndex] = useState(0)
@@ -31,18 +37,19 @@ export default function QuizPage() {
   const [scores, setScores] = useState<Record<string, number>>({})
 
   useEffect(() => {
-  fetch('/api/review')
-    .then((res) => res.json())
-    .then((data) => {
-      if (Array.isArray(data)) {
-        setWords(data)
-        setCurrentIndex(0)
-        setQuizTypeIndex(0)
-      } else {
-        setWords([])
-      }
-    })
-  }, [])
+    const endpoint = mode === 'repeat' ? '/api/review/repeat' : '/api/review'
+    fetch(endpoint)
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setWords(data)
+          setCurrentIndex(0)
+          setQuizTypeIndex(0)
+        } else {
+          setWords([])
+        }
+      })
+  }, [mode])
 
   const handleNext = (score?: number) => {
     const word = words[currentIndex]
@@ -55,11 +62,25 @@ export default function QuizPage() {
 
     if (currentIndex + 1 >= words.length) {
       setShowScore(true)
+
+      const results = Object.entries({
+        ...scores,
+        ...(score !== undefined && word ? { [word._id]: (scores[word._id] || 0) + score } : {}),
+      }).map(([id, score]) => ({
+        _id: id,
+        score,
+      }))
+
       fetch('/api/review/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(scores),
+        body: JSON.stringify({ results }),
+      }).then(() => {
+        setTimeout(() => {
+          router.push('/')
+        }, 2000)
       })
+
       return
     }
 
@@ -96,7 +117,7 @@ export default function QuizPage() {
   return (
     <div className="p-4">
       <p className="text-sm text-gray-500 text-right mb-2">
-        {currentIndex + 1} / {words.length} · Mode: <span className="capitalize">{type}</span>
+        {currentIndex + 1} / {words.length} · Mode: <span className="capitalize">{mode}</span> · Quiz: <span className="capitalize">{type}</span>
       </p>
 
       {type === 'flashcard' && (

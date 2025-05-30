@@ -5,10 +5,12 @@ import Word from '@/models/word'
 export async function POST(req: Request) {
   try {
     await connectDB()
+
     const body = await req.json()
+
     const updates = body.results as {
       _id: string
-      score: number 
+      score: number
     }[]
 
     const today = new Date()
@@ -19,8 +21,12 @@ export async function POST(req: Request) {
 
       const currentLevel = word.level || 1
       let newLevel = currentLevel
-      if (score >= 3) newLevel = Math.min(5, currentLevel + 1)
-      else if (score <= 1) newLevel = Math.max(1, currentLevel - 1)
+
+      if (score >= 3) {
+        newLevel = Math.min(5, currentLevel + 1)
+      } else if (score <= 1) {
+        newLevel = Math.max(1, currentLevel - 1)
+      }
 
       const nextReviewDate = new Date()
       nextReviewDate.setDate(today.getDate() + newLevel)
@@ -29,7 +35,10 @@ export async function POST(req: Request) {
         level: newLevel,
         lastReviewedDate: today,
         nextReviewDate,
-        incorrectCount: score < 3 ? (word.incorrectCount || 0) + 1 : word.incorrectCount || 0,
+        incorrectCount:
+          score < 3
+            ? (word.incorrectCount || 0) + 1
+            : word.incorrectCount || 0,
       })
     })
 
@@ -38,6 +47,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: 'Review results saved' })
   } catch (err) {
     console.error(err)
-    return NextResponse.json({ message: 'Failed to submit results' }, { status: 500 })
+    return NextResponse.json(
+      { message: 'Failed to submit results' },
+      { status: 500 }
+    )
   }
 }
