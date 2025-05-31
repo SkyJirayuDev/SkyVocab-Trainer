@@ -1,11 +1,24 @@
 import mongoose from 'mongoose'
 
-let cached = (global as any).mongoose || { conn: null, promise: null }
+interface Cached {
+  conn: typeof mongoose | null
+  promise: Promise<typeof mongoose> | null
+}
 
-async function connectDB() {
+let cached: Cached = (globalThis as any).mongoose
+
+if (!cached) {
+  cached = {
+    conn: null,
+    promise: null,
+  }
+  ;(globalThis as any).mongoose = cached
+}
+
+async function connectDB(): Promise<typeof mongoose> {
   if (cached.conn) return cached.conn
 
-  const MONGODB_URI = process.env.MONGODB_URI 
+  const MONGODB_URI = process.env.MONGODB_URI
   if (!MONGODB_URI) throw new Error('MONGODB_URI is not defined')
 
   if (!cached.promise) {
@@ -13,6 +26,7 @@ async function connectDB() {
       dbName: 'skyvocab',
     })
   }
+
   cached.conn = await cached.promise
   return cached.conn
 }

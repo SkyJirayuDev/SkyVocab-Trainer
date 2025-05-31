@@ -8,6 +8,7 @@ import Typing from "./Typing"
 import Listening from "./Listening"
 
 interface WordData {
+  _id: string
   word: string
   translation: string
   examples: string[]
@@ -32,15 +33,51 @@ export default function QuizWrapper({
 
   switch (type) {
     case "flashcard":
-      return <Flashcard word={data.word} translation={data.translation} onNext={onNext} />
+      return (
+        <Flashcard
+          wordId={data._id}
+          word={data.word}
+          translation={data.translation}
+          onNext={onNext}
+        />
+      )
     case "multiple":
-      return <MultipleChoice question={data.word} options={[data.translation, "xxx", "yyy", "zzz"]} correct={data.translation} onNext={onNext} />
+      return (
+        <MultipleChoice
+          wordId={data._id}
+          question={data.translation}
+          choices={[data.word, "xxx", "yyy", "zzz"]}
+          correctAnswer={data.word}
+          onNext={onNext}
+        />
+      )
     case "blank":
-      return <FillInBlank sentenceTemplate={data.examples[0].replace(data.word, "___")} correctWord={data.word} onNext={onNext} />
+      return (
+        <FillInBlank
+          wordId={data._id}
+          sentenceTemplate={data.examples[0]?.replace(data.word, "___") || "___"}
+          correctWord={data.word}
+          onNext={onNext}
+        />
+      )
     case "typing":
-      return <Typing thai={data.translation} english={data.word} onNext={onNext} />
+      return (
+        <Typing
+          wordId={data._id}
+          translation={data.translation}
+          correctWord={data.word}
+          onNext={onNext}
+        />
+      )
     case "listening":
-      return <Listening word={data.word} choices={[data.word, "abc", "def", "ghi"]} onNext={onNext} />
+      return (
+        <Listening
+          wordId={data._id}
+          word={data.word}
+          choices={[data.word, "abc", "def", "ghi"]}
+          onNext={onNext}
+        />
+      )
     default:
       return null
   }

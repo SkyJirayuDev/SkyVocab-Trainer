@@ -1,19 +1,21 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaCheckCircle, FaTimesCircle, FaLightbulb } from "react-icons/fa";
-import { useMemo } from "react";
+import axios from "axios";
 
 interface FillInBlankProps {
   sentenceTemplate: string;
   correctWord: string;
-  onNext: () => void;
+  wordId: string;
+  onNext: (score: number) => void;
 }
 
 export default function FillInBlank({
   sentenceTemplate,
   correctWord,
+  wordId,
   onNext,
 }: FillInBlankProps) {
   const [input, setInput] = useState("");
@@ -25,17 +27,26 @@ export default function FillInBlank({
     inputRef.current?.focus();
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const isCorrectAnswer =
       input.trim().toLowerCase() === correctWord.toLowerCase();
     setIsCorrect(isCorrectAnswer);
     setShowResult(true);
 
+    const point = isCorrectAnswer ? 3 : 0;
+
+    if (isCorrectAnswer) {
+      await axios.post("/api/score", {
+        wordId,
+        scoreToAdd: point,
+      });
+    }
+
     setTimeout(() => {
       setInput("");
       setShowResult(false);
       setIsCorrect(null);
-      onNext();
+      onNext(point);
     }, 1800);
   };
 
@@ -44,17 +55,6 @@ export default function FillInBlank({
   };
 
   const parts = sentenceTemplate.split("___");
-
-  const generatePartialHint = (word: string, showCount = 3) => {
-    const indices = new Set<number>();
-    while (indices.size < Math.min(showCount, word.length)) {
-      indices.add(Math.floor(Math.random() * word.length));
-    }
-    return word
-      .split("")
-      .map((char, idx) => (indices.has(idx) ? char : "_"))
-      .join(" ");
-  };
 
   const partialHint = useMemo(() => {
     const maxToShow = Math.floor(correctWord.length / 2);

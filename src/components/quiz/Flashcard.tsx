@@ -2,19 +2,38 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 interface FlashcardProps {
+  wordId: string;
   word: string;
   translation: string;
   onNext: (score: number) => void;
 }
 
 export default function Flashcard({
+  wordId,
   word,
   translation,
   onNext,
 }: FlashcardProps) {
   const [flipped, setFlipped] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleAnswer = async (score: number) => {
+    setSubmitting(true);
+    try {
+      await axios.post("/api/score", {
+        wordId,
+        scoreToAdd: score,
+      });
+    } catch (error) {
+      console.error("Error updating score:", error);
+    } finally {
+      setSubmitting(false);
+      onNext(score);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh]">
@@ -53,13 +72,15 @@ export default function Flashcard({
       {flipped && (
         <div className="flex gap-4 mt-2">
           <button
-            onClick={() => onNext(1)}
+            onClick={() => handleAnswer(1)} 
+            disabled={submitting}
             className="px-5 py-2 text-white bg-green-600 hover:bg-green-700 rounded-lg font-semibold transition"
           >
             Remembered
           </button>
           <button
-            onClick={() => onNext(0)}
+            onClick={() => handleAnswer(0)} 
+            disabled={submitting}
             className="px-5 py-2 text-white bg-red-500 hover:bg-red-600 rounded-lg font-semibold transition"
           >
             Forgot
