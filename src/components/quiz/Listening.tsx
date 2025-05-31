@@ -1,20 +1,35 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Volume2 } from "lucide-react";
 import axios from "axios";
+import ResultPopup from "./ResultPopup";
 
 interface ListeningProps {
   wordId: string;
   word: string;
   choices: string[];
+  translation: string;
+  partOfSpeech?: string;
+  definition?: string;
+  examples?: string[];
   onNext: (score: number) => void;
 }
 
-export default function Listening({ wordId, word, choices, onNext }: ListeningProps) {
+export default function Listening({
+  wordId,
+  word,
+  choices,
+  translation,
+  partOfSpeech,
+  definition,
+  examples,
+  onNext,
+}: ListeningProps) {
   const [selected, setSelected] = useState("");
   const [answered, setAnswered] = useState(false);
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     playSound();
@@ -28,13 +43,15 @@ export default function Listening({ wordId, word, choices, onNext }: ListeningPr
 
   const handleSelect = async (option: string) => {
     if (answered) return;
+
+    const correct = option === word;
+    const score = correct ? 2 : 0;
+
     setSelected(option);
+    setIsCorrect(correct);
     setAnswered(true);
 
-    const isCorrect = option === word;
-    const score = isCorrect ? 2 : 0;
-
-    if (isCorrect) {
+    if (correct) {
       try {
         await axios.post("/api/score", {
           wordId,
@@ -46,10 +63,16 @@ export default function Listening({ wordId, word, choices, onNext }: ListeningPr
     }
 
     setTimeout(() => {
-      setSelected("");
-      setAnswered(false);
-      onNext(score);
-    }, 1500);
+      setShowPopup(true);
+    }, 500);
+  };
+
+  const handleNext = (score: number) => {
+    setShowPopup(false);
+    setSelected("");
+    setAnswered(false);
+    setIsCorrect(null);
+    onNext(score);
   };
 
   return (
@@ -87,20 +110,17 @@ export default function Listening({ wordId, word, choices, onNext }: ListeningPr
         ))}
       </div>
 
-      <AnimatePresence>
-        {answered && (
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className={`text-lg font-bold ${
-              selected === word ? "text-green-500" : "text-red-500"
-            }`}
-          >
-            {selected === word ? "Correct!" : `Wrong. Answer: ${word}`}
-          </motion.p>
-        )}
-      </AnimatePresence>
+      {showPopup && isCorrect !== null && (
+        <ResultPopup
+          isCorrect={isCorrect}
+          word={word}
+          translation={translation}
+          partOfSpeech={partOfSpeech}
+          definition={definition}
+          examples={examples}
+          onNext={() => handleNext(isCorrect ? 2 : 0)}
+        />
+      )}
     </div>
   );
 }

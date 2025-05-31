@@ -13,6 +13,7 @@ interface WordData {
   translation: string
   examples: string[]
   partOfSpeech: string
+  definition?: string
 }
 
 const quizTypes = ["flashcard", "multiple", "blank", "typing", "listening"]
@@ -22,62 +23,76 @@ export default function QuizWrapper({
   onNext,
 }: {
   data: WordData
-  onNext: () => void
+  onNext: (score: number) => void
 }) {
   const [type, setType] = useState("flashcard")
 
   useEffect(() => {
     const random = quizTypes[Math.floor(Math.random() * quizTypes.length)]
     setType(random)
-  }, [data.word]) 
+  }, [data.word])
+
+  const commonProps = {
+    wordId: data._id,
+    partOfSpeech: data.partOfSpeech,
+    definition: data.definition,
+    examples: data.examples,
+    onNext,
+  }
 
   switch (type) {
     case "flashcard":
       return (
         <Flashcard
-          wordId={data._id}
+          {...commonProps}
           word={data.word}
           translation={data.translation}
-          onNext={onNext}
         />
       )
+
     case "multiple":
+      const choices = [data.word, "xxx", "yyy", "zzz"].sort(() => 0.5 - Math.random())
       return (
         <MultipleChoice
-          wordId={data._id}
+          {...commonProps}
+          word={data.word}
+          translation={data.translation}
           question={data.translation}
-          choices={[data.word, "xxx", "yyy", "zzz"]}
+          choices={choices}
           correctAnswer={data.word}
-          onNext={onNext}
         />
       )
+
     case "blank":
       return (
         <FillInBlank
-          wordId={data._id}
-          sentenceTemplate={data.examples[0]?.replace(data.word, "___") || "___"}
+          {...commonProps}
           correctWord={data.word}
-          onNext={onNext}
+          translation={data.translation}
+          sentenceTemplate={data.examples[0]?.replace(data.word, "___") || "___"}
         />
       )
+
     case "typing":
       return (
         <Typing
-          wordId={data._id}
-          translation={data.translation}
+          {...commonProps}
           correctWord={data.word}
-          onNext={onNext}
+          translation={data.translation}
         />
       )
+
     case "listening":
+      const audioChoices = [data.word, "abc", "def", "ghi"].sort(() => 0.5 - Math.random())
       return (
         <Listening
-          wordId={data._id}
+          {...commonProps}
           word={data.word}
-          choices={[data.word, "abc", "def", "ghi"]}
-          onNext={onNext}
+          translation={data.translation}
+          choices={audioChoices}
         />
       )
+
     default:
       return null
   }

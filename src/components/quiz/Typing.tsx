@@ -1,14 +1,16 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import axios from "axios";
+import ResultPopup from "./ResultPopup";
 
 interface TypingProps {
   wordId: string;
   translation: string;
   correctWord: string;
+  partOfSpeech?: string;
+  definition?: string;
+  examples?: string[];
   onNext: (score: number) => void;
 }
 
@@ -16,22 +18,32 @@ export default function Typing({
   wordId,
   translation,
   correctWord,
+  partOfSpeech,
+  definition,
+  examples,
   onNext,
 }: TypingProps) {
   const [input, setInput] = useState("");
-  const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
+  const playFeedbackSound = (correct: boolean) => {
+    const audio = new Audio(
+      correct ? "/sounds/correct.mp3" : "/sounds/incorrect.mp3"
+    );
+    audio.play();
+  };
+
   const handleSubmit = async () => {
     const trimmedInput = input.trim().toLowerCase();
     const isCorrectAnswer = trimmedInput === correctWord.toLowerCase();
     setIsCorrect(isCorrectAnswer);
-    setShowResult(true);
+    playFeedbackSound(isCorrectAnswer);
 
     const score = isCorrectAnswer ? 2.5 : 0;
 
@@ -46,12 +58,14 @@ export default function Typing({
       }
     }
 
-    setTimeout(() => {
-      setInput("");
-      setShowResult(false);
-      setIsCorrect(null);
-      onNext(score);
-    }, 1800);
+    setShowPopup(true);
+  };
+
+  const handleNext = (score: number) => {
+    setInput("");
+    setIsCorrect(null);
+    setShowPopup(false);
+    onNext(score);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -62,7 +76,7 @@ export default function Typing({
     <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-6 text-center">
       <p className="text-xl text-white bg-indigo-600 px-6 py-4 rounded-xl shadow max-w-lg leading-relaxed">
         Type the English word for:
-        <b className="text-yellow-300 underline ml-2">{translation}</b>
+        <b className="text-yellow-300 ml-2">{translation}</b>
       </p>
 
       <input
@@ -82,29 +96,17 @@ export default function Typing({
         Submit
       </button>
 
-      <AnimatePresence>
-        {showResult && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className={`text-lg font-bold flex items-center gap-2 ${
-              isCorrect ? "text-green-400" : "text-red-400"
-            }`}
-          >
-            {isCorrect ? (
-              <>
-                <FaCheckCircle /> Correct!
-              </>
-            ) : (
-              <>
-                <FaTimesCircle /> Wrong. Answer:{" "}
-                <span className="underline">{correctWord}</span>
-              </>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {showPopup && isCorrect !== null && (
+        <ResultPopup
+          isCorrect={isCorrect}
+          word={correctWord}
+          translation={translation}
+          partOfSpeech={partOfSpeech}
+          definition={definition}
+          examples={examples}
+          onNext={() => handleNext(isCorrect ? 2.5 : 0)}
+        />
+      )}
     </div>
   );
 }

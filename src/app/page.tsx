@@ -17,6 +17,7 @@ export default function Home() {
   ]);
   const [mounted, setMounted] = useState(false);
   const [unlockedLevel, setUnlockedLevel] = useState<string | null>(null);
+  const [todayHasWords, setTodayHasWords] = useState<boolean | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -33,7 +34,6 @@ export default function Home() {
 
         if (unlocked) {
           const lastUnlocked = localStorage.getItem("lastUnlockedLevel");
-
           if (lastUnlocked !== unlocked.level) {
             setUnlockedLevel(unlocked.level);
             localStorage.setItem("lastUnlockedLevel", unlocked.level);
@@ -44,7 +44,19 @@ export default function Home() {
       }
     }
 
+    async function checkTodayWords() {
+      try {
+        const res = await axios.get("/api/review");
+        const words = res.data;
+        setTodayHasWords(Array.isArray(words) && words.length > 0);
+      } catch (error) {
+        console.error("Error checking today's review words:", error);
+        setTodayHasWords(false);
+      }
+    }
+
     fetchLevelStats();
+    checkTodayWords();
   }, []);
 
   return (
@@ -71,18 +83,26 @@ export default function Home() {
       )}
 
       <div className="mt-10 flex flex-col items-center gap-4 w-full max-w-xs">
-        <button
-          onClick={() => router.push("/train")}
-          className="w-full px-8 py-4 text-xl font-extrabold text-white rounded-2xl
-    bg-gradient-to-br from-yellow-400 via-pink-500 to-purple-600
-    shadow-[0_4px_25px_rgba(255,255,255,0.3)]
-    hover:shadow-[0_6px_30px_rgba(255,255,255,0.5)]
-    hover:scale-105 active:scale-95
-    transition-all duration-300 ease-out
-    border border-white/20 animate-pulse"
-        >
-          Start Today's Review
-        </button>
+        {todayHasWords === null ? (
+          <p className="text-gray-400 text-sm">Checking today&apos;s words...</p>
+        ) : todayHasWords === false ? (
+          <p className="text-green-400 text-lg font-semibold">
+            🎉 You&apos;re all caught up today!
+          </p>
+        ) : (
+          <button
+            onClick={() => router.push("/train")}
+            className="w-full px-8 py-4 text-xl font-extrabold text-white rounded-2xl
+              bg-gradient-to-br from-yellow-400 via-pink-500 to-purple-600
+              shadow-[0_4px_25px_rgba(255,255,255,0.3)]
+              hover:shadow-[0_6px_30px_rgba(255,255,255,0.5)]
+              hover:scale-105 active:scale-95
+              transition-all duration-300 ease-out
+              border border-white/20 animate-pulse"
+          >
+            ✅ Start Today&apos;s Review
+          </button>
+        )}
 
         <div className="flex flex-col gap-3 w-full">
           <button

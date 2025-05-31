@@ -1,95 +1,112 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
+import ResultPopup from "./ResultPopup";
 
 interface MultipleChoiceProps {
   wordId: string;
+  word: string;
+  translation: string;
   question: string;
   choices: string[];
   correctAnswer: string;
+  partOfSpeech?: string;
+  definition?: string;
+  examples?: string[];
   onNext: (score: number) => void;
 }
 
 export default function MultipleChoice({
   wordId,
+  word,
+  translation,
   question,
   choices,
   correctAnswer,
+  partOfSpeech,
+  definition,
+  examples,
   onNext,
 }: MultipleChoiceProps) {
   const [selected, setSelected] = useState("");
   const [answered, setAnswered] = useState(false);
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
 
-  const handleSelect = async (option: string) => {
+  const handleSelect = async (choice: string) => {
     if (answered) return;
-    setSelected(option);
+
+    const correct = choice === correctAnswer;
+    const score = correct ? 2 : 0;
+
+    setSelected(choice);
+    setIsCorrect(correct);
     setAnswered(true);
 
-    const isCorrect = option === correctAnswer;
-    const score = isCorrect ? 1.5 : 0;
-
-    if (isCorrect) {
+    if (correct) {
       try {
         await axios.post("/api/score", {
           wordId,
           scoreToAdd: score,
         });
-      } catch (error) {
-        console.error("Failed to update score:", error);
+      } catch (err) {
+        console.error("Failed to update score:", err);
       }
     }
 
     setTimeout(() => {
-      setSelected("");
-      setAnswered(false);
-      onNext(score);
-    }, 1500);
+      setShowPopup(true);
+    }, 500);
+  };
+
+  const handleNext = (score: number) => {
+    setShowPopup(false);
+    setSelected("");
+    setAnswered(false);
+    setIsCorrect(null);
+    onNext(score);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-6 text-center">
-      <p className="text-lg text-white bg-indigo-600 px-6 py-4 rounded-xl shadow max-w-lg">
+    <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-6">
+      <p className="text-lg font-semibold text-white bg-indigo-600 px-6 py-3 rounded-xl shadow">
         {question}
       </p>
 
       <div className="grid grid-cols-1 gap-4 w-full max-w-sm">
-        {choices.map((choice, index) => (
+        {choices.map((opt, i) => (
           <button
-            key={index}
-            onClick={() => handleSelect(choice)}
+            key={i}
+            onClick={() => handleSelect(opt)}
             disabled={answered}
             className={`w-full py-3 px-4 rounded-xl text-lg font-medium border transition-all
               ${
                 answered
-                  ? choice === correctAnswer
+                  ? opt === correctAnswer
                     ? "bg-green-100 border-green-500 text-green-800"
-                    : choice === selected
+                    : opt === selected
                     ? "bg-red-100 border-red-500 text-red-800"
                     : "bg-gray-100 text-gray-500"
                   : "bg-white hover:bg-indigo-50 text-black"
               }`}
           >
-            {choice}
+            {opt}
           </button>
         ))}
       </div>
 
-      <AnimatePresence>
-        {answered && (
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className={`text-lg font-bold ${
-              selected === correctAnswer ? "text-green-500" : "text-red-500"
-            }`}
-          >
-            {selected === correctAnswer ? "Correct!" : `Wrong. Answer: ${correctAnswer}`}
-          </motion.p>
-        )}
-      </AnimatePresence>
+      {showPopup && isCorrect !== null && (
+        <ResultPopup
+          isCorrect={isCorrect}
+          word={word}
+          translation={translation}
+          partOfSpeech={partOfSpeech}
+          definition={definition}
+          examples={examples}
+          onNext={() => handleNext(isCorrect ? 2 : 0)}
+        />
+      )}
     </div>
   );
 }

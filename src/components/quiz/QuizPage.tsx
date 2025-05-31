@@ -119,9 +119,7 @@ export default function QuizPage({ mode = "today" }: Props) {
   return (
     <div className="p-4">
       <p className="text-sm text-gray-500 text-right mb-2">
-        {currentIndex + 1} / {words.length} · Mode:{" "}
-        <span className="capitalize">{mode}</span> · Quiz:{" "}
-        <span className="capitalize">{type}</span>
+        {currentIndex + 1} / {words.length} · Mode: <span className="capitalize">{mode}</span> · Quiz: <span className="capitalize">{type}</span>
       </p>
 
       {type === "flashcard" && (
@@ -129,6 +127,9 @@ export default function QuizPage({ mode = "today" }: Props) {
           wordId={word._id}
           word={word.word}
           translation={word.translation}
+          partOfSpeech={word.partOfSpeech}
+          definition={word.definition}
+          examples={word.examples}
           onNext={() => handleNext(1)}
         />
       )}
@@ -136,9 +137,14 @@ export default function QuizPage({ mode = "today" }: Props) {
       {type === "multiple" && (
         <MultipleChoice
           wordId={word._id}
+          word={word.word}
+          translation={word.translation}
           question={word.translation}
           choices={generateChoices()}
           correctAnswer={word.word}
+          partOfSpeech={word.partOfSpeech}
+          definition={word.definition}
+          examples={word.examples}
           onNext={() => handleNext(1)}
         />
       )}
@@ -146,10 +152,12 @@ export default function QuizPage({ mode = "today" }: Props) {
       {type === "fill" && (
         <FillInBlank
           wordId={word._id}
-          sentenceTemplate={
-            word.examples[0]?.replace(word.word, "___") || "___"
-          }
           correctWord={word.word}
+          translation={word.translation}
+          sentenceTemplate={word.examples[0]?.replace(word.word, "___") || "___"}
+          partOfSpeech={word.partOfSpeech}
+          definition={word.definition}
+          examples={word.examples}
           onNext={() => handleNext(1)}
         />
       )}
@@ -157,8 +165,11 @@ export default function QuizPage({ mode = "today" }: Props) {
       {type === "typing" && (
         <Typing
           wordId={word._id}
-          translation={word.translation}
           correctWord={word.word}
+          translation={word.translation}
+          partOfSpeech={word.partOfSpeech}
+          definition={word.definition}
+          examples={word.examples}
           onNext={handleNext}
         />
       )}
@@ -167,7 +178,11 @@ export default function QuizPage({ mode = "today" }: Props) {
         <Listening
           wordId={word._id}
           word={word.word}
+          translation={word.translation}
           choices={generateChoices()}
+          partOfSpeech={word.partOfSpeech}
+          definition={word.definition}
+          examples={word.examples}
           onNext={() => handleNext(1)}
         />
       )}

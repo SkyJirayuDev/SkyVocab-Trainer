@@ -1,14 +1,18 @@
 "use client";
 
 import { useState, useEffect, useRef, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaCheckCircle, FaTimesCircle, FaLightbulb } from "react-icons/fa";
 import axios from "axios";
+import ResultPopup from "./ResultPopup";
+import { FaLightbulb } from "react-icons/fa";
 
 interface FillInBlankProps {
   sentenceTemplate: string;
   correctWord: string;
   wordId: string;
+  translation: string;
+  partOfSpeech?: string;
+  definition?: string;
+  examples?: string[];
   onNext: (score: number) => void;
 }
 
@@ -16,10 +20,14 @@ export default function FillInBlank({
   sentenceTemplate,
   correctWord,
   wordId,
+  translation,
+  partOfSpeech,
+  definition,
+  examples,
   onNext,
 }: FillInBlankProps) {
   const [input, setInput] = useState("");
-  const [showResult, setShowResult] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -28,30 +36,36 @@ export default function FillInBlank({
   }, []);
 
   const handleSubmit = async () => {
-    const isCorrectAnswer =
-      input.trim().toLowerCase() === correctWord.toLowerCase();
+    const isCorrectAnswer = input.trim().toLowerCase() === correctWord.toLowerCase();
     setIsCorrect(isCorrectAnswer);
-    setShowResult(true);
 
     const point = isCorrectAnswer ? 3 : 0;
 
     if (isCorrectAnswer) {
-      await axios.post("/api/score", {
-        wordId,
-        scoreToAdd: point,
-      });
+      try {
+        await axios.post("/api/score", {
+          wordId,
+          scoreToAdd: point,
+        });
+      } catch (error) {
+        console.error("Error updating score:", error);
+      }
     }
 
     setTimeout(() => {
-      setInput("");
-      setShowResult(false);
-      setIsCorrect(null);
-      onNext(point);
-    }, 1800);
+      setShowPopup(true);
+    }, 500);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") handleSubmit();
+  };
+
+  const handleNext = () => {
+    setShowPopup(false);
+    setInput("");
+    setIsCorrect(null);
+    onNext(isCorrect ? 3 : 0);
   };
 
   const parts = sentenceTemplate.split("___");
@@ -101,29 +115,17 @@ export default function FillInBlank({
         Submit
       </button>
 
-      <AnimatePresence>
-        {showResult && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className={`text-lg font-bold flex items-center gap-2 ${
-              isCorrect ? "text-green-400" : "text-red-400"
-            }`}
-          >
-            {isCorrect ? (
-              <>
-                <FaCheckCircle /> Correct!
-              </>
-            ) : (
-              <>
-                <FaTimesCircle /> Wrong. Answer:{" "}
-                <span className="underline">{correctWord}</span>
-              </>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {showPopup && (
+        <ResultPopup
+          isCorrect={!!isCorrect}
+          word={correctWord}
+          translation={translation}
+          partOfSpeech={partOfSpeech}
+          definition={definition}
+          examples={examples}
+          onNext={handleNext}
+        />
+      )}
     </div>
   );
 }
