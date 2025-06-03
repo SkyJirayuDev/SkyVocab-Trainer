@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 import { FaHeadphones, FaVolumeUp } from "react-icons/fa";
 import axios from "axios";
@@ -32,16 +32,9 @@ export default function Listening({
   const [showPopup, setShowPopup] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  useEffect(() => {
-    // Auto-play sound when component mounts
-    setTimeout(() => {
-      playSound();
-    }, 1000);
-  }, [word]);
-
-  const playSound = () => {
+  const playSound = useCallback(() => {
     if (isPlaying) return;
-    
+
     setIsPlaying(true);
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = "en-US";
@@ -49,14 +42,21 @@ export default function Listening({
     utterance.onend = () => setIsPlaying(false);
     utterance.onerror = () => setIsPlaying(false);
     speechSynthesis.speak(utterance);
-  };
+  }, [word, isPlaying]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      playSound();
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, [playSound]);
 
   const handleSelect = async (option: string) => {
     if (answered) return;
-    
+
     const correct = option === word;
     const score = correct ? 2 : 0;
-    
+
     setSelected(option);
     setIsCorrect(correct);
     setAnswered(true);
@@ -88,15 +88,18 @@ export default function Listening({
   return (
     <div className="h-screen flex items-center justify-center p-4">
       <div className="max-w-4xl w-full h-full flex flex-col justify-center space-y-10">
-        
         {/* Header with listening theme */}
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center gap-3 mb-3">
             <FaHeadphones className="text-3xl text-purple-400 drop-shadow-lg" />
-            <h2 className="text-3xl font-bold text-white drop-shadow-lg">Listen & Choose</h2>
+            <h2 className="text-3xl font-bold text-white drop-shadow-lg">
+              Listen & Choose
+            </h2>
             <FaHeadphones className="text-3xl text-purple-400 drop-shadow-lg" />
           </div>
-          <p className="text-slate-300 text-base font-medium drop-shadow">Listen carefully and choose the correct word</p>
+          <p className="text-slate-300 text-base font-medium drop-shadow">
+            Listen carefully and choose the correct word
+          </p>
         </div>
 
         {/* Audio control card */}
@@ -106,9 +109,11 @@ export default function Listening({
             <div className="text-center space-y-6">
               <div className="flex items-center justify-center gap-2 mb-4">
                 <FaVolumeUp className="text-2xl text-purple-400 drop-shadow" />
-                <span className="text-slate-300 text-lg font-medium drop-shadow">Audio Word:</span>
+                <span className="text-slate-300 text-lg font-medium drop-shadow">
+                  Audio Word:
+                </span>
               </div>
-              
+
               <button
                 onClick={playSound}
                 disabled={isPlaying}
@@ -158,7 +163,6 @@ export default function Listening({
             ))}
           </div>
         </div>
-
       </div>
 
       {showPopup && isCorrect !== null && (

@@ -30,13 +30,17 @@ const LevelChart = ({ data }: LevelChartProps) => {
   };
 
   // Custom tooltip for vocabulary context
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  interface CustomTooltipProps {
+    active?: boolean;
+    payload?: { value: number }[];
+    label?: string;
+  }
+
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-gray-800 border border-gray-600 rounded-lg p-3 shadow-xl">
-          <p className="text-gray-300 text-sm">
-            Level {label}
-          </p>
+          <p className="text-gray-300 text-sm">Level {label}</p>
           <p className="text-white text-lg font-bold">
             📚 {payload[0].value} words
           </p>
@@ -50,7 +54,9 @@ const LevelChart = ({ data }: LevelChartProps) => {
     <div className="w-full max-w-4xl mt-4 border border-gray-700 rounded-xl shadow-2xl bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
       {/* Simple header */}
       <div className="mb-6">
-        <h3 className="text-xl font-bold text-white mb-2">Vocabulary Distribution</h3>
+        <h3 className="text-xl font-bold text-white mb-2">
+          Vocabulary Distribution
+        </h3>
         <p className="text-gray-400 text-sm">
           Total: {data.reduce((sum, item) => sum + item.count, 0)} words
         </p>
@@ -66,29 +72,44 @@ const LevelChart = ({ data }: LevelChartProps) => {
             <defs>
               {/* Subtle gradients for each bar */}
               {data.map((_, index) => (
-                <linearGradient key={index} id={`gradient${index}`} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor={getBarColor(data[index].level)} stopOpacity={1} />
-                  <stop offset="100%" stopColor={getBarColor(data[index].level)} stopOpacity={0.7} />
+                <linearGradient
+                  key={index}
+                  id={`gradient${index}`}
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
+                  <stop
+                    offset="0%"
+                    stopColor={getBarColor(data[index].level)}
+                    stopOpacity={1}
+                  />
+                  <stop
+                    offset="100%"
+                    stopColor={getBarColor(data[index].level)}
+                    stopOpacity={0.7}
+                  />
                 </linearGradient>
               ))}
             </defs>
 
-            <CartesianGrid 
-              strokeDasharray="3 3" 
-              stroke="#374151" 
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke="#374151"
               strokeOpacity={0.6}
             />
-            
+
             <XAxis
               dataKey="level"
-              tick={{ fill: '#d1d5db', fontSize: 14, fontWeight: '500' }}
+              tick={{ fill: "#d1d5db", fontSize: 14, fontWeight: "500" }}
               tickFormatter={(value: string) => `Lv.${value}`}
               axisLine={false}
               tickLine={false}
             />
-            
+
             <Tooltip content={<CustomTooltip />} />
-            
+
             <Bar
               dataKey="count"
               radius={[8, 8, 0, 0]}

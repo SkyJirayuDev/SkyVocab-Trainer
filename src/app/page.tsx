@@ -5,7 +5,7 @@ import axios from "axios";
 import LevelChart from "@/components/quiz/LevelChart";
 import { useRouter } from "next/navigation";
 import RewardPopup from "@/components/quiz/RewardPopup";
-import { FaRocket, FaTrophy, FaPlus, FaRedoAlt, FaCheckCircle, FaStar } from "react-icons/fa";
+import { FaRocket, FaTrophy, FaStar } from "react-icons/fa";
 
 interface LevelData {
   level: string;
