@@ -35,94 +35,128 @@ export default function AddWordPage() {
   }
 
   return (
-    <div className="min-h-screen px-4 py-6 sm:px-6 lg:px-8">
-      <div className="max-w-md mx-auto bg-gray-50 text-black shadow-lg rounded-2xl p-6">
-        <h1 className="text-xl font-semibold text-center mb-6">Add New Word</h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="min-h-screen px-4 py-6 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      <div className="max-w-md mx-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white shadow-2xl rounded-2xl p-6 border border-gray-700">
+        <div className="mb-6 text-center">
+          <h1 className="text-2xl font-bold text-white mb-2">📚 Add New Word</h1>
+          <p className="text-gray-400 text-sm">Expand your vocabulary collection</p>
+        </div>
+        
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium mb-1">English</label>
+            <label className="block text-sm font-semibold mb-2 text-gray-300">
+              🇺🇸 English Word
+            </label>
             <input
               type="text"
               value={english}
               onChange={(e) => setEnglish(e.target.value)}
               required
-              className="w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border border-gray-600 bg-gray-800/50 p-3 text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+              placeholder="Enter English word..."
             />
           </div>
+          
           <div>
-            <label className="block text-sm font-medium mb-1">Thai</label>
+            <label className="block text-sm font-semibold mb-2 text-gray-300">
+              🇹🇭 Thai Translation
+            </label>
             <input
               type="text"
               value={thai}
               onChange={(e) => setThai(e.target.value)}
               required
-              className="w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border border-gray-600 bg-gray-800/50 p-3 text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
+              placeholder="ใส่คำแปลภาษาไทย..."
             />
           </div>
+          
           <div>
-            <label className="block text-sm font-medium mb-1">Definition (English)</label>
+            <label className="block text-sm font-semibold mb-2 text-gray-300">
+              📖 Definition (English)
+            </label>
             <input
               type="text"
               value={definition}
               onChange={(e) => setDefinition(e.target.value)}
               placeholder="e.g. showing courage in the face of danger"
-              className="w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border border-gray-600 bg-gray-800/50 p-3 text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300"
             />
           </div>
+          
           <div>
-            <label className="block text-sm font-medium mb-1">Part of Speech</label>
+            <label className="block text-sm font-semibold mb-2 text-gray-300">
+              📝 Part of Speech
+            </label>
             <select
               value={partOfSpeech}
               onChange={(e) => setPartOfSpeech(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border border-gray-600 bg-gray-800/50 p-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all duration-300"
             >
-              <option value="noun">Noun</option>
-              <option value="verb">Verb</option>
-              <option value="adjective">Adjective</option>
-              <option value="adverb">Adverb</option>
-              <option value="preposition">Preposition</option>
-              <option value="conjunction">Conjunction</option>
-              <option value="interjection">Interjection</option>
+              <option value="noun">Noun (คำนาม)</option>
+              <option value="verb">Verb (คำกริยา)</option>
+              <option value="adjective">Adjective (คำคุณศัพท์)</option>
+              <option value="adverb">Adverb (คำกริยาวิเศษณ์)</option>
+              <option value="preposition">Preposition (คำบุพบท)</option>
+              <option value="conjunction">Conjunction (คำสันธาน)</option>
+              <option value="interjection">Interjection (คำอุทาน)</option>
             </select>
           </div>
+          
           <div>
-            <label className="block text-sm font-medium mb-1">Category</label>
+            <label className="block text-sm font-semibold mb-2 text-gray-300">
+              🏷️ Category
+            </label>
             <input
               type="text"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               required
-              placeholder="e.g. Emotion, Travel"
-              className="w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="e.g. Emotion, Travel, Business"
+              className="w-full rounded-lg border border-gray-600 bg-gray-800/50 p-3 text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300"
             />
           </div>
+          
           <div>
-            <label className="block text-sm font-medium mb-1">Example Sentence 1</label>
+            <label className="block text-sm font-semibold mb-2 text-gray-300">
+              💬 Example Sentence 1
+            </label>
             <input
               type="text"
               value={example1}
               onChange={(e) => setExample1(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border border-gray-600 bg-gray-800/50 p-3 text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-300"
+              placeholder="First example sentence..."
             />
           </div>
+          
           <div>
-            <label className="block text-sm font-medium mb-1">Example Sentence 2</label>
+            <label className="block text-sm font-semibold mb-2 text-gray-300">
+              💭 Example Sentence 2
+            </label>
             <input
               type="text"
               value={example2}
               onChange={(e) => setExample2(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border border-gray-600 bg-gray-800/50 p-3 text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300"
+              placeholder="Second example sentence..."
             />
           </div>
+          
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white rounded-lg py-2 font-medium hover:bg-blue-700 transition"
+            className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 text-white rounded-lg py-3 font-semibold hover:from-blue-700 hover:via-purple-700 hover:to-blue-800 transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
           >
-            Add Word
+            ✨ Add Word to Collection
           </button>
         </form>
+        
         {message && (
-          <p className="text-center text-green-600 mt-4 text-sm">{message}</p>
+          <div className="mt-6 p-3 bg-green-800/30 border border-green-600/50 rounded-lg">
+            <p className="text-center text-green-300 text-sm font-medium">
+              ✅ {message}
+            </p>
+          </div>
         )}
       </div>
     </div>

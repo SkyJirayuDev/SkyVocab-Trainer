@@ -1,5 +1,4 @@
 "use client";
-
 import {
   BarChart,
   Bar,
@@ -7,6 +6,7 @@ import {
   CartesianGrid,
   ResponsiveContainer,
   Cell,
+  Tooltip,
 } from "recharts";
 
 interface LevelChartProps {
@@ -14,56 +14,129 @@ interface LevelChartProps {
 }
 
 const LevelChart = ({ data }: LevelChartProps) => {
+  // Enhanced color palette with better vocabulary learning theme
+  const getBarColor = (level: string) => {
+    const colors = {
+      "1": "#22c55e", // Green - Beginner
+      "2": "#3b82f6", // Blue - Elementary
+      "3": "#8b5cf6", // Purple - Intermediate
+      "4": "#f59e0b", // Amber - Advanced
+      "5": "#ef4444", // Red - Expert
+      "6": "#06b6d4", // Cyan - Master
+      "7": "#ec4899", // Pink - Native
+      "8": "#f97316", // Orange - Academic
+    };
+    return colors[level as keyof typeof colors] || "#6b7280";
+  };
+
+  // Custom tooltip for vocabulary context
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-gray-800 border border-gray-600 rounded-lg p-3 shadow-xl">
+          <p className="text-gray-300 text-sm">
+            Level {label}
+          </p>
+          <p className="text-white text-lg font-bold">
+            📚 {payload[0].value} words
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
-    <div className="w-full max-w-4xl mt-8 border border-gray-700 rounded shadow bg-gray-900 p-6">
-      <div style={{ width: "100%", height: 300 }}>
+    <div className="w-full max-w-4xl mt-4 border border-gray-700 rounded-xl shadow-2xl bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
+      {/* Simple header */}
+      <div className="mb-6">
+        <h3 className="text-xl font-bold text-white mb-2">Vocabulary Distribution</h3>
+        <p className="text-gray-400 text-sm">
+          Total: {data.reduce((sum, item) => sum + item.count, 0)} words
+        </p>
+      </div>
+
+      <div style={{ width: "100%", height: 320 }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
             margin={{ top: 30, right: 30, left: 30, bottom: 30 }}
-            barCategoryGap="20%"
+            barCategoryGap="18%"
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#2d2d2d" />
+            <defs>
+              {/* Subtle gradients for each bar */}
+              {data.map((_, index) => (
+                <linearGradient key={index} id={`gradient${index}`} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={getBarColor(data[index].level)} stopOpacity={1} />
+                  <stop offset="100%" stopColor={getBarColor(data[index].level)} stopOpacity={0.7} />
+                </linearGradient>
+              ))}
+            </defs>
 
+            <CartesianGrid 
+              strokeDasharray="3 3" 
+              stroke="#374151" 
+              strokeOpacity={0.6}
+            />
+            
             <XAxis
               dataKey="level"
-              tick={{ fill: '#d1d5db', fontSize: 14 }} 
+              tick={{ fill: '#d1d5db', fontSize: 14, fontWeight: '500' }}
               tickFormatter={(value: string) => `Lv.${value}`}
               axisLine={false}
               tickLine={false}
             />
-
+            
+            <Tooltip content={<CustomTooltip />} />
+            
             <Bar
               dataKey="count"
               radius={[8, 8, 0, 0]}
-              animationDuration={800}
+              animationDuration={1000}
+              animationEasing="ease-out"
               label={{
                 position: "top",
-                fill: "#e5e7eb", 
-                fontWeight: "bold",
-                fontSize: 16,
+                fill: "#f3f4f6",
+                fontWeight: "600",
+                fontSize: 14,
               }}
             >
               {data.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
-                  fill={
-                    entry.level === "1"
-                      ? "#6366f1" // Indigo
-                      : entry.level === "2"
-                      ? "#10b981" // Emerald
-                      : entry.level === "3"
-                      ? "#f59e0b" // Amber
-                      : entry.level === "4"
-                      ? "#ef4444" // Red
-                      : "#8b5cf6" // Violet
-                  }
+                  fill={`url(#gradient${index})`}
+                  className="hover:brightness-125 hover:drop-shadow-lg transition-all duration-300 cursor-pointer"
+                  stroke={getBarColor(entry.level)}
+                  strokeWidth={1}
                 />
               ))}
             </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>
+
+      {/* Simple progress indicator */}
+      <div className="mt-4 bg-gray-700/50 rounded-full h-2 overflow-hidden">
+        <div className="h-full flex">
+          {data.map((item, index) => {
+            const total = data.reduce((sum, d) => sum + d.count, 0);
+            return (
+              <div
+                key={index}
+                className="h-full transition-all duration-700"
+                style={{
+                  width: `${(item.count / total) * 100}%`,
+                  backgroundColor: getBarColor(item.level),
+                }}
+                title={`Level ${item.level}: ${item.count} words`}
+              />
+            );
+          })}
+        </div>
+      </div>
+      <p className="text-center text-gray-500 text-xs mt-2">
+        Word distribution across difficulty levels
+      </p>
     </div>
   );
 };

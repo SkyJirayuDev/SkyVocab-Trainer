@@ -1,8 +1,8 @@
 "use client";
-
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import ResultPopup from "./ResultPopup";
+import { FaKeyboard, FaLanguage } from "react-icons/fa";
 
 interface TypingProps {
   wordId: string;
@@ -26,25 +26,18 @@ export default function Typing({
   const [input, setInput] = useState("");
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
-  const playFeedbackSound = (correct: boolean) => {
-    const audio = new Audio(
-      correct ? "/sounds/correct.mp3" : "/sounds/incorrect.mp3"
-    );
-    audio.play();
-  };
-
   const handleSubmit = async () => {
     const trimmedInput = input.trim().toLowerCase();
     const isCorrectAnswer = trimmedInput === correctWord.toLowerCase();
     setIsCorrect(isCorrectAnswer);
-    playFeedbackSound(isCorrectAnswer);
-
+    
     const score = isCorrectAnswer ? 2.5 : 0;
 
     if (isCorrectAnswer) {
@@ -58,53 +51,109 @@ export default function Typing({
       }
     }
 
-    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(true);
+    }, 500);
   };
 
-  const handleNext = (score: number) => {
+  const handleNext = () => {
     setInput("");
     setIsCorrect(null);
     setShowPopup(false);
-    onNext(score);
+    setIsTyping(false);
+    onNext(isCorrect ? 2.5 : 0);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") handleSubmit();
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+    setIsTyping(e.target.value.length > 0);
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-6 text-center">
-      <p className="text-xl text-white bg-indigo-600 px-6 py-4 rounded-xl shadow max-w-lg leading-relaxed">
-        Type the English word for:
-        <b className="text-yellow-300 ml-2">{translation}</b>
-      </p>
+    <div className="h-screen flex items-center justify-center p-4">
+      <div className="max-w-4xl w-full h-full flex flex-col justify-center space-y-10">
+        
+        {/* Header with typing theme */}
+        <div className="text-center space-y-2">
+          <div className="flex items-center justify-center gap-3 mb-3">
+            <FaKeyboard className="text-3xl text-green-400 drop-shadow-lg" />
+            <h2 className="text-3xl font-bold text-white drop-shadow-lg">Type the Word</h2>
+            <FaKeyboard className="text-3xl text-green-400 drop-shadow-lg" />
+          </div>
+          <p className="text-slate-300 text-base font-medium drop-shadow">Type the English word for the given translation</p>
+        </div>
 
-      <input
-        ref={inputRef}
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        onKeyDown={handleKeyPress}
-        placeholder="Type the English word"
-        className="w-full max-w-sm px-4 py-2 rounded-xl border-2 border-indigo-400 bg-black/20 text-white text-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-      />
+        {/* Translation card */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-green-600/20 rounded-2xl blur-xl"></div>
+          <div className="relative bg-slate-800/95 backdrop-blur-sm border-2 border-slate-600/80 rounded-2xl p-8 shadow-2xl">
+            <div className="text-center space-y-4">
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <FaLanguage className="text-2xl text-green-400 drop-shadow" />
+                <span className="text-slate-300 text-lg font-medium drop-shadow">Translation:</span>
+              </div>
+              <p className="text-3xl text-white font-bold drop-shadow-lg leading-relaxed">
+                {translation}
+              </p>
+            </div>
+          </div>
+        </div>
 
-      <button
-        onClick={handleSubmit}
-        className="bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 rounded-xl text-lg font-semibold transition duration-300"
-      >
-        Submit
-      </button>
+        {/* Hint section */}
+        <div className="flex justify-center">
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-2 text-slate-200">
+              <span className="text-sm font-medium drop-shadow">Target word length:</span>
+              <span className="font-mono text-sm bg-slate-800/60 px-3 py-1 rounded border border-slate-600/60 text-white shadow-inner">
+                {correctWord.length} letters
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Input section */}
+        <div className="flex flex-col items-center space-y-6">
+          <div className="relative w-full max-w-md">
+            <input
+              ref={inputRef}
+              type="text"
+              value={input}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyPress}
+              placeholder="Type the English word..."
+              className="w-full px-6 py-4 text-xl text-center text-white bg-slate-800/70 backdrop-blur-sm border-2 border-slate-600/70 rounded-2xl shadow-2xl focus:outline-none focus:border-green-400 focus:ring-4 focus:ring-green-400/30 transition-all duration-300 placeholder-slate-400 font-medium"
+            />
+            {isTyping && (
+              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              </div>
+            )}
+          </div>
+
+          <button
+            onClick={handleSubmit}
+            disabled={!input.trim()}
+            className="group relative px-10 py-4 bg-green-600 hover:bg-green-700 disabled:bg-slate-600 text-white text-xl font-bold rounded-2xl shadow-2xl transition-all duration-300 transform hover:scale-105 disabled:cursor-not-allowed disabled:transform-none border border-green-500/30"
+          >
+            <span className="relative z-10 drop-shadow-lg">Submit Answer</span>
+          </button>
+        </div>
+
+      </div>
 
       {showPopup && isCorrect !== null && (
         <ResultPopup
-          isCorrect={isCorrect}
+          isCorrect={!!isCorrect}
           word={correctWord}
           translation={translation}
           partOfSpeech={partOfSpeech}
           definition={definition}
           examples={examples}
-          onNext={() => handleNext(isCorrect ? 2.5 : 0)}
+          onNext={handleNext}
         />
       )}
     </div>
