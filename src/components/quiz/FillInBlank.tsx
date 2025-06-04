@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useRef, useMemo } from "react";
 import axios from "axios";
 import ResultPopup from "./ResultPopup";
 import { FaLightbulb, FaPuzzlePiece } from "react-icons/fa";
@@ -31,12 +31,9 @@ export default function FillInBlank({
   const [isTyping, setIsTyping] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
-
   const handleSubmit = async () => {
-    const isCorrectAnswer = input.trim().toLowerCase() === correctWord.toLowerCase();
+    const isCorrectAnswer =
+      input.trim().toLowerCase() === correctWord.toLowerCase();
     setIsCorrect(isCorrectAnswer);
     const point = isCorrectAnswer ? 3 : 0;
 
@@ -88,17 +85,20 @@ export default function FillInBlank({
   }, [correctWord]);
 
   return (
-    <div className="h-screen flex items-center justify-center p-4">
-      <div className="max-w-4xl w-full h-full flex flex-col justify-center space-y-5">
-        
+    <div className="min-h-screen flex flex-col items-center p-4 pt-10">
+      <div className="max-w-4xl w-full flex flex-col space-y-5">
         {/* Header with puzzle theme */}
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center gap-3 mb-3">
             <FaPuzzlePiece className="text-3xl text-blue-400 drop-shadow-lg" />
-            <h2 className="text-3xl font-bold text-white drop-shadow-lg">Fill in the Blank</h2>
+            <h2 className="text-3xl font-bold text-white drop-shadow-lg">
+              Fill in the Blank
+            </h2>
             <FaPuzzlePiece className="text-3xl text-blue-400 drop-shadow-lg" />
           </div>
-          <p className="text-slate-300 text-sm font-medium drop-shadow">Complete the sentence by filling in the missing word</p>
+          <p className="text-slate-300 text-sm font-medium drop-shadow">
+            Complete the sentence by filling in the missing word
+          </p>
         </div>
 
         {/* Main sentence card */}
@@ -155,7 +155,6 @@ export default function FillInBlank({
             <span className="relative z-10 drop-shadow-lg">Check Answer</span>
           </button>
         </div>
-
       </div>
 
       {showPopup && (

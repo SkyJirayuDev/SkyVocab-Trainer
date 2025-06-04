@@ -112,7 +112,7 @@ const LevelChart = ({ data }: LevelChartProps) => {
       </div>
 
       {/* Mini Progress Indicator */}
-      <div className="mt-2 bg-gray-700/50 rounded-full h-2 overflow-hidden">
+      <div className="mt-1 bg-gray-700/50 rounded-full h-1 overflow-hidden">
         <div className="h-full flex">
           {data.map((item, index) => {
             const total = data.reduce((sum, d) => sum + d.count, 0);

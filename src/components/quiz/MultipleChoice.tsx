@@ -36,10 +36,10 @@ export default function MultipleChoice({
 
   const handleSelect = async (choice: string) => {
     if (answered) return;
-    
+
     const correct = choice === correctAnswer;
     const score = correct ? 2 : 0;
-    
+
     setSelected(choice);
     setIsCorrect(correct);
     setAnswered(true);
@@ -69,17 +69,20 @@ export default function MultipleChoice({
   };
 
   return (
-    <div className="h-screen flex items-center justify-center p-4">
-      <div className="max-w-4xl w-full h-full flex flex-col justify-center space-y-5">
-        
+    <div className="min-h-screen flex flex-col items-center p-4 pt-10">
+      <div className="max-w-4xl w-full flex flex-col space-y-5">
         {/* Header with quiz theme */}
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center gap-3 mb-3">
             <FaQuestionCircle className="text-3xl text-orange-400 drop-shadow-lg" />
-            <h2 className="text-3xl font-bold text-white drop-shadow-lg">Multiple Choice</h2>
+            <h2 className="text-3xl font-bold text-white drop-shadow-lg">
+              Multiple Choice
+            </h2>
             <FaQuestionCircle className="text-3xl text-orange-400 drop-shadow-lg" />
           </div>
-          <p className="text-slate-300 text-sm font-medium drop-shadow">Choose the best answer from the options below</p>
+          <p className="text-slate-300 text-sm font-medium drop-shadow">
+            Choose the best answer from the options below
+          </p>
         </div>
 
         {/* Question card */}
@@ -89,7 +92,9 @@ export default function MultipleChoice({
             <div className="text-center space-y-4">
               <div className="flex items-center justify-center gap-2 mb-4">
                 <FaCheckCircle className="text-2xl text-orange-400 drop-shadow" />
-                <span className="text-slate-300 text-lg font-medium drop-shadow">Question:</span>
+                <span className="text-slate-300 text-lg font-medium drop-shadow">
+                  Question:
+                </span>
               </div>
               <p className="text-2xl text-white font-semibold drop-shadow-lg leading-relaxed">
                 {question}
@@ -120,7 +125,9 @@ export default function MultipleChoice({
                   <span className="w-8 h-8 bg-slate-700/60 rounded-full flex items-center justify-center text-sm font-bold border border-slate-600">
                     {String.fromCharCode(65 + i)}
                   </span>
-                  <span className="relative z-10 drop-shadow text-left flex-1">{opt}</span>
+                  <span className="relative z-10 drop-shadow text-left flex-1">
+                    {opt}
+                  </span>
                 </div>
                 {answered && opt === correctAnswer && (
                   <div className="absolute inset-0 bg-green-400/20 rounded-2xl animate-pulse"></div>
@@ -132,7 +139,6 @@ export default function MultipleChoice({
             ))}
           </div>
         </div>
-
       </div>
 
       {showPopup && isCorrect !== null && (

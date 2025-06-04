@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 import { FaHeadphones, FaVolumeUp } from "react-icons/fa";
 import axios from "axios";
@@ -36,7 +36,7 @@ export default function Listening({
     if (speechSynthesis.speaking) return;
 
     setIsPlaying(true);
-    speechSynthesis.cancel(); 
+    speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = "en-US";
     utterance.rate = 0.8;
@@ -44,13 +44,6 @@ export default function Listening({
     utterance.onerror = () => setIsPlaying(false);
     speechSynthesis.speak(utterance);
   }, [word]);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      playSound();
-    }, 1000);
-    return () => clearTimeout(timeout);
-  }, [playSound]);
 
   const handleSelect = async (option: string) => {
     if (answered) return;
@@ -84,16 +77,22 @@ export default function Listening({
     setAnswered(false);
     setIsCorrect(null);
     onNext(isCorrect ? 2 : 0);
+
+    setTimeout(() => {
+      playSound();
+    }, 300);
   };
 
   return (
-    <div className="h-screen flex items-center justify-center p-4">
-      <div className="max-w-4xl w-full h-full flex flex-col justify-center space-y-5">
+    <div className="min-h-screen flex flex-col items-center p-4 pt-10">
+      <div className="max-w-4xl w-full flex flex-col space-y-5">
         {/* Header */}
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center gap-3 mb-3">
             <FaHeadphones className="text-3xl text-purple-400 drop-shadow-lg" />
-            <h2 className="text-3xl font-bold text-white drop-shadow-lg">Listen & Choose</h2>
+            <h2 className="text-3xl font-bold text-white drop-shadow-lg">
+              Listen & Choose
+            </h2>
             <FaHeadphones className="text-3xl text-purple-400 drop-shadow-lg" />
           </div>
           <p className="text-slate-300 text-sm font-medium drop-shadow">

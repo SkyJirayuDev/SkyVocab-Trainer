@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 import ResultPopup from "./ResultPopup";
 import { FaKeyboard, FaLanguage } from "react-icons/fa";
@@ -27,10 +27,6 @@ export default function Typing({
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [showPopup, setShowPopup] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
 
   const handleSubmit = async () => {
     const trimmedInput = input.trim().toLowerCase();
@@ -71,8 +67,8 @@ export default function Typing({
   };
 
   return (
-    <div className="h-screen flex items-center justify-center p-4">
-      <div className="max-w-4xl w-full h-full flex flex-col justify-center space-y-5">
+    <div className="min-h-screen flex flex-col items-center p-4 pt-10">
+      <div className="max-w-4xl w-full flex flex-col space-y-5">
         {/* Header */}
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center gap-3 mb-3">
