@@ -26,7 +26,6 @@ export default function Typing({
   const [input, setInput] = useState("");
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [showPopup, setShowPopup] = useState(false);
-  const [isTyping, setIsTyping] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -37,7 +36,7 @@ export default function Typing({
     const trimmedInput = input.trim().toLowerCase();
     const isCorrectAnswer = trimmedInput === correctWord.toLowerCase();
     setIsCorrect(isCorrectAnswer);
-    
+
     const score = isCorrectAnswer ? 2.5 : 0;
 
     if (isCorrectAnswer) {
@@ -60,7 +59,6 @@ export default function Typing({
     setInput("");
     setIsCorrect(null);
     setShowPopup(false);
-    setIsTyping(false);
     onNext(isCorrect ? 2.5 : 0);
   };
 
@@ -70,31 +68,35 @@ export default function Typing({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
-    setIsTyping(e.target.value.length > 0);
   };
 
   return (
     <div className="h-screen flex items-center justify-center p-4">
       <div className="max-w-4xl w-full h-full flex flex-col justify-center space-y-5">
-        
-        {/* Header with typing theme */}
+        {/* Header */}
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center gap-3 mb-3">
             <FaKeyboard className="text-3xl text-green-400 drop-shadow-lg" />
-            <h2 className="text-3xl font-bold text-white drop-shadow-lg">Type the Word</h2>
+            <h2 className="text-3xl font-bold text-white drop-shadow-lg">
+              Type the Word
+            </h2>
             <FaKeyboard className="text-3xl text-green-400 drop-shadow-lg" />
           </div>
-          <p className="text-slate-300 text-base font-medium drop-shadow">Type the English word for the given translation</p>
+          <p className="text-slate-300 text-base font-medium drop-shadow">
+            Type the English word for the given translation
+          </p>
         </div>
 
-        {/* Translation card */}
+        {/* Translation Card */}
         <div className="relative">
           <div className="absolute inset-0 bg-green-600/20 rounded-2xl blur-xl"></div>
           <div className="relative bg-slate-800/95 backdrop-blur-sm border-2 border-slate-600/80 rounded-2xl p-8 shadow-2xl">
             <div className="text-center space-y-4">
               <div className="flex items-center justify-center gap-2 mb-4">
                 <FaLanguage className="text-2xl text-green-400 drop-shadow" />
-                <span className="text-slate-300 text-lg font-medium drop-shadow">Translation:</span>
+                <span className="text-slate-300 text-lg font-medium drop-shadow">
+                  Translation:
+                </span>
               </div>
               <p className="text-3xl text-white font-bold drop-shadow-lg leading-relaxed">
                 {translation}
@@ -103,11 +105,13 @@ export default function Typing({
           </div>
         </div>
 
-        {/* Hint section */}
+        {/* Hint */}
         <div className="flex justify-center">
           <div className="text-center">
             <div className="flex items-center justify-center gap-2 text-slate-200">
-              <span className="text-sm font-medium drop-shadow">Target word length:</span>
+              <span className="text-sm font-medium drop-shadow">
+                Target word length:
+              </span>
               <span className="font-mono text-sm bg-slate-800/60 px-3 py-1 rounded border border-slate-600/60 text-white shadow-inner">
                 {correctWord.length} letters
               </span>
@@ -115,7 +119,7 @@ export default function Typing({
           </div>
         </div>
 
-        {/* Input section */}
+        {/* Input Section */}
         <div className="flex flex-col items-center space-y-6">
           <div className="relative w-full max-w-md">
             <input
@@ -137,7 +141,6 @@ export default function Typing({
             <span className="relative z-10 drop-shadow-lg">Submit Answer</span>
           </button>
         </div>
-
       </div>
 
       {showPopup && isCorrect !== null && (
