@@ -89,7 +89,7 @@ export default function FillInBlank({
 
   return (
     <div className="h-screen flex items-center justify-center p-4">
-      <div className="max-w-4xl w-full h-full flex flex-col justify-center space-y-10">
+      <div className="max-w-4xl w-full h-full flex flex-col justify-center space-y-5">
         
         {/* Header with puzzle theme */}
         <div className="text-center space-y-2">
@@ -98,7 +98,7 @@ export default function FillInBlank({
             <h2 className="text-3xl font-bold text-white drop-shadow-lg">Fill in the Blank</h2>
             <FaPuzzlePiece className="text-3xl text-blue-400 drop-shadow-lg" />
           </div>
-          <p className="text-slate-300 text-base font-medium drop-shadow">Complete the sentence by filling in the missing word</p>
+          <p className="text-slate-300 text-sm font-medium drop-shadow">Complete the sentence by filling in the missing word</p>
         </div>
 
         {/* Main sentence card */}

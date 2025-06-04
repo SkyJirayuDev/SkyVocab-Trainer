@@ -70,7 +70,7 @@ export default function MultipleChoice({
 
   return (
     <div className="h-screen flex items-center justify-center p-4">
-      <div className="max-w-4xl w-full h-full flex flex-col justify-center space-y-10">
+      <div className="max-w-4xl w-full h-full flex flex-col justify-center space-y-5">
         
         {/* Header with quiz theme */}
         <div className="text-center space-y-2">
@@ -79,7 +79,7 @@ export default function MultipleChoice({
             <h2 className="text-3xl font-bold text-white drop-shadow-lg">Multiple Choice</h2>
             <FaQuestionCircle className="text-3xl text-orange-400 drop-shadow-lg" />
           </div>
-          <p className="text-slate-300 text-base font-medium drop-shadow">Choose the best answer from the options below</p>
+          <p className="text-slate-300 text-sm font-medium drop-shadow">Choose the best answer from the options below</p>
         </div>
 
         {/* Question card */}

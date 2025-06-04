@@ -6,7 +6,6 @@ import {
   CartesianGrid,
   ResponsiveContainer,
   Cell,
-  Tooltip,
 } from "recharts";
 
 interface LevelChartProps {
@@ -14,7 +13,7 @@ interface LevelChartProps {
 }
 
 const LevelChart = ({ data }: LevelChartProps) => {
-  // Enhanced color palette with better vocabulary learning theme
+  // Color palette by level
   const getBarColor = (level: string) => {
     const colors = {
       "1": "#22c55e", // Green - Beginner
@@ -29,31 +28,10 @@ const LevelChart = ({ data }: LevelChartProps) => {
     return colors[level as keyof typeof colors] || "#6b7280";
   };
 
-  // Custom tooltip for vocabulary context
-  interface CustomTooltipProps {
-    active?: boolean;
-    payload?: { value: number }[];
-    label?: string;
-  }
-
-  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="bg-gray-800 border border-gray-600 rounded-lg p-3 shadow-xl">
-          <p className="text-gray-300 text-sm">Level {label}</p>
-          <p className="text-white text-lg font-bold">
-            📚 {payload[0].value} words
-          </p>
-        </div>
-      );
-    }
-    return null;
-  };
-
   return (
     <div className="w-full max-w-4xl mt-4 border border-gray-700 rounded-xl shadow-2xl bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-6">
-      {/* Simple header */}
-      <div className="mb-6">
+      {/* Header */}
+      <div className="mb-2">
         <h3 className="text-xl font-bold text-white mb-2">
           Vocabulary Distribution
         </h3>
@@ -62,7 +40,8 @@ const LevelChart = ({ data }: LevelChartProps) => {
         </p>
       </div>
 
-      <div style={{ width: "100%", height: 320 }}>
+      {/* Bar Chart */}
+      <div style={{ width: "100%", height: 250 }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
@@ -70,7 +49,6 @@ const LevelChart = ({ data }: LevelChartProps) => {
             barCategoryGap="18%"
           >
             <defs>
-              {/* Subtle gradients for each bar */}
               {data.map((_, index) => (
                 <linearGradient
                   key={index}
@@ -108,8 +86,6 @@ const LevelChart = ({ data }: LevelChartProps) => {
               tickLine={false}
             />
 
-            <Tooltip content={<CustomTooltip />} />
-
             <Bar
               dataKey="count"
               radius={[8, 8, 0, 0]}
@@ -126,7 +102,6 @@ const LevelChart = ({ data }: LevelChartProps) => {
                 <Cell
                   key={`cell-${index}`}
                   fill={`url(#gradient${index})`}
-                  className="hover:brightness-125 hover:drop-shadow-lg transition-all duration-300 cursor-pointer"
                   stroke={getBarColor(entry.level)}
                   strokeWidth={1}
                 />
@@ -136,8 +111,8 @@ const LevelChart = ({ data }: LevelChartProps) => {
         </ResponsiveContainer>
       </div>
 
-      {/* Simple progress indicator */}
-      <div className="mt-4 bg-gray-700/50 rounded-full h-2 overflow-hidden">
+      {/* Mini Progress Indicator */}
+      <div className="mt-2 bg-gray-700/50 rounded-full h-2 overflow-hidden">
         <div className="h-full flex">
           {data.map((item, index) => {
             const total = data.reduce((sum, d) => sum + d.count, 0);
@@ -155,6 +130,7 @@ const LevelChart = ({ data }: LevelChartProps) => {
           })}
         </div>
       </div>
+
       <p className="text-center text-gray-500 text-xs mt-2">
         Word distribution across difficulty levels
       </p>

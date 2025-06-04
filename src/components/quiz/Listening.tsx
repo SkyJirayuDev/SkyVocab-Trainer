@@ -33,16 +33,17 @@ export default function Listening({
   const [isPlaying, setIsPlaying] = useState(false);
 
   const playSound = useCallback(() => {
-    if (isPlaying) return;
+    if (speechSynthesis.speaking) return;
 
     setIsPlaying(true);
+    speechSynthesis.cancel(); 
     const utterance = new SpeechSynthesisUtterance(word);
     utterance.lang = "en-US";
     utterance.rate = 0.8;
     utterance.onend = () => setIsPlaying(false);
     utterance.onerror = () => setIsPlaying(false);
     speechSynthesis.speak(utterance);
-  }, [word, isPlaying]);
+  }, [word]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -87,22 +88,20 @@ export default function Listening({
 
   return (
     <div className="h-screen flex items-center justify-center p-4">
-      <div className="max-w-4xl w-full h-full flex flex-col justify-center space-y-10">
-        {/* Header with listening theme */}
+      <div className="max-w-4xl w-full h-full flex flex-col justify-center space-y-5">
+        {/* Header */}
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center gap-3 mb-3">
             <FaHeadphones className="text-3xl text-purple-400 drop-shadow-lg" />
-            <h2 className="text-3xl font-bold text-white drop-shadow-lg">
-              Listen & Choose
-            </h2>
+            <h2 className="text-3xl font-bold text-white drop-shadow-lg">Listen & Choose</h2>
             <FaHeadphones className="text-3xl text-purple-400 drop-shadow-lg" />
           </div>
-          <p className="text-slate-300 text-base font-medium drop-shadow">
+          <p className="text-slate-300 text-sm font-medium drop-shadow">
             Listen carefully and choose the correct word
           </p>
         </div>
 
-        {/* Audio control card */}
+        {/* Audio Control */}
         <div className="relative">
           <div className="absolute inset-0 bg-purple-600/20 rounded-2xl blur-xl"></div>
           <div className="relative bg-slate-800/95 backdrop-blur-sm border-2 border-slate-600/80 rounded-2xl p-8 shadow-2xl">
@@ -134,7 +133,7 @@ export default function Listening({
           </div>
         </div>
 
-        {/* Choices section */}
+        {/* Choices */}
         <div className="space-y-4">
           <div className="grid grid-cols-1 gap-4 max-w-2xl mx-auto">
             {choices.map((opt, i) => (

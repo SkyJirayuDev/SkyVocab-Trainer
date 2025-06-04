@@ -75,7 +75,7 @@ export default function Typing({
 
   return (
     <div className="h-screen flex items-center justify-center p-4">
-      <div className="max-w-4xl w-full h-full flex flex-col justify-center space-y-10">
+      <div className="max-w-4xl w-full h-full flex flex-col justify-center space-y-5">
         
         {/* Header with typing theme */}
         <div className="text-center space-y-2">
@@ -127,11 +127,6 @@ export default function Typing({
               placeholder="Type the English word..."
               className="w-full px-6 py-4 text-xl text-center text-white bg-slate-800/70 backdrop-blur-sm border-2 border-slate-600/70 rounded-2xl shadow-2xl focus:outline-none focus:border-green-400 focus:ring-4 focus:ring-green-400/30 transition-all duration-300 placeholder-slate-400 font-medium"
             />
-            {isTyping && (
-              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              </div>
-            )}
           </div>
 
           <button
