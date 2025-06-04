@@ -77,10 +77,6 @@ export default function Listening({
     setAnswered(false);
     setIsCorrect(null);
     onNext(isCorrect ? 2 : 0);
-
-    setTimeout(() => {
-      playSound();
-    }, 300);
   };
 
   return (
