@@ -7,6 +7,7 @@ import MultipleChoice from "./MultipleChoice";
 import FillInBlank from "./FillInBlank";
 import Typing from "./Typing";
 import Listening from "./Listening";
+import { initSpeechPermission } from "@/lib/initSpeech";
 
 interface Word {
   _id: string;
@@ -37,6 +38,8 @@ export default function QuizPage({ mode = "today" }: Props) {
   const [scores, setScores] = useState<Record<string, number>>({});
 
   useEffect(() => {
+    initSpeechPermission(); 
+
     const endpoint = mode === "repeat" ? "/api/review/repeat" : "/api/review";
     fetch(endpoint)
       .then((res) => res.json())
