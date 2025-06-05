@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import { FaQuestionCircle, FaCheckCircle } from "react-icons/fa";
-import axios from "axios";
 import ResultPopup from "./ResultPopup";
+import { QUIZ_SCORE } from "@/utils/scoreMap";
 
 interface MultipleChoiceProps {
   wordId: string;
@@ -18,7 +18,6 @@ interface MultipleChoiceProps {
 }
 
 export default function MultipleChoice({
-  wordId,
   word,
   translation,
   question,
@@ -34,26 +33,14 @@ export default function MultipleChoice({
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [showPopup, setShowPopup] = useState(false);
 
-  const handleSelect = async (choice: string) => {
+  const handleSelect = (choice: string) => {
     if (answered) return;
 
     const correct = choice === correctAnswer;
-    const score = correct ? 2 : 0;
 
     setSelected(choice);
     setIsCorrect(correct);
     setAnswered(true);
-
-    if (correct) {
-      try {
-        await axios.post("/api/score", {
-          wordId,
-          scoreToAdd: score,
-        });
-      } catch (err) {
-        console.error("Failed to update score:", err);
-      }
-    }
 
     setTimeout(() => {
       setShowPopup(true);
@@ -65,7 +52,8 @@ export default function MultipleChoice({
     setSelected("");
     setAnswered(false);
     setIsCorrect(null);
-    onNext(isCorrect ? 2 : 0);
+    const score = QUIZ_SCORE.multiple(!!isCorrect);
+    onNext(score);
   };
 
   return (

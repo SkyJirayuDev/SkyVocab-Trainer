@@ -1,8 +1,8 @@
 "use client";
 import { useState, useRef, useMemo } from "react";
-import axios from "axios";
 import ResultPopup from "./ResultPopup";
 import { FaLightbulb, FaPuzzlePiece } from "react-icons/fa";
+import { QUIZ_SCORE } from "@/utils/scoreMap";
 
 interface FillInBlankProps {
   sentenceTemplate: string;
@@ -31,23 +31,10 @@ export default function FillInBlank({
   const [isTyping, setIsTyping] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     const isCorrectAnswer =
       input.trim().toLowerCase() === correctWord.toLowerCase();
     setIsCorrect(isCorrectAnswer);
-    const point = isCorrectAnswer ? 3 : 0;
-
-    if (isCorrectAnswer) {
-      try {
-        await axios.post("/api/score", {
-          wordId,
-          scoreToAdd: point,
-        });
-      } catch (error) {
-        console.error("Error updating score:", error);
-      }
-    }
-
     setTimeout(() => {
       setShowPopup(true);
     }, 500);
@@ -67,7 +54,8 @@ export default function FillInBlank({
     setInput("");
     setIsCorrect(null);
     setIsTyping(false);
-    onNext(isCorrect ? 3 : 0);
+    const score = QUIZ_SCORE.fill(!!isCorrect);
+    onNext(score);
   };
 
   const parts = sentenceTemplate.split("___");

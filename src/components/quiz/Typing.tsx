@@ -1,8 +1,8 @@
 "use client";
 import { useState, useRef } from "react";
-import axios from "axios";
 import ResultPopup from "./ResultPopup";
 import { FaKeyboard, FaLanguage } from "react-icons/fa";
+import { QUIZ_SCORE } from "@/utils/scoreMap";
 
 interface TypingProps {
   wordId: string;
@@ -15,7 +15,6 @@ interface TypingProps {
 }
 
 export default function Typing({
-  wordId,
   translation,
   correctWord,
   partOfSpeech,
@@ -28,23 +27,10 @@ export default function Typing({
   const [showPopup, setShowPopup] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     const trimmedInput = input.trim().toLowerCase();
     const isCorrectAnswer = trimmedInput === correctWord.toLowerCase();
     setIsCorrect(isCorrectAnswer);
-
-    const score = isCorrectAnswer ? 2.5 : 0;
-
-    if (isCorrectAnswer) {
-      try {
-        await axios.post("/api/score", {
-          wordId,
-          scoreToAdd: score,
-        });
-      } catch (error) {
-        console.error("Failed to update score:", error);
-      }
-    }
 
     setTimeout(() => {
       setShowPopup(true);
@@ -55,7 +41,8 @@ export default function Typing({
     setInput("");
     setIsCorrect(null);
     setShowPopup(false);
-    onNext(isCorrect ? 2.5 : 0);
+    const score = QUIZ_SCORE.typing(Boolean(isCorrect));
+    onNext(score);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

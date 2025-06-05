@@ -2,8 +2,8 @@
 import { useState, useCallback } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 import { FaHeadphones, FaVolumeUp } from "react-icons/fa";
-import axios from "axios";
 import ResultPopup from "./ResultPopup";
+import { QUIZ_SCORE } from "@/utils/scoreMap";
 
 interface ListeningProps {
   wordId: string;
@@ -17,7 +17,6 @@ interface ListeningProps {
 }
 
 export default function Listening({
-  wordId,
   word,
   choices,
   translation,
@@ -45,26 +44,15 @@ export default function Listening({
     speechSynthesis.speak(utterance);
   }, [word]);
 
-  const handleSelect = async (option: string) => {
+  const handleSelect = (option: string) => {
     if (answered) return;
 
     const correct = option === word;
-    const score = correct ? 2 : 0;
+    const score = QUIZ_SCORE.listening(correct);
 
     setSelected(option);
     setIsCorrect(correct);
     setAnswered(true);
-
-    if (correct) {
-      try {
-        await axios.post("/api/score", {
-          wordId,
-          scoreToAdd: score,
-        });
-      } catch (err) {
-        console.error("Failed to update score:", err);
-      }
-    }
 
     setTimeout(() => {
       setShowPopup(true);
@@ -76,7 +64,8 @@ export default function Listening({
     setSelected("");
     setAnswered(false);
     setIsCorrect(null);
-    onNext(isCorrect ? 2 : 0);
+    const score = QUIZ_SCORE.listening(!!isCorrect);
+    onNext(score);
   };
 
   return (
