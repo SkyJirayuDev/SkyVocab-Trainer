@@ -75,7 +75,7 @@ export default function Home() {
             <img
               src="/logo.png"
               alt="SkyVocab Logo"
-              className="w-40 h-40 rounded-xl shadow-md"
+              className="w-36 h-36 rounded-xl shadow-md"
             />
             <div>
               <div className="flex items-center justify-center gap-2 mt-2">
