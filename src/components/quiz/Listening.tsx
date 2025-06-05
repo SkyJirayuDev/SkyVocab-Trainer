@@ -48,7 +48,6 @@ export default function Listening({
     if (answered) return;
 
     const correct = option === word;
-    const score = QUIZ_SCORE.listening(correct);
 
     setSelected(option);
     setIsCorrect(correct);

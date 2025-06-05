@@ -18,7 +18,6 @@ interface FillInBlankProps {
 export default function FillInBlank({
   sentenceTemplate,
   correctWord,
-  wordId,
   translation,
   partOfSpeech,
   definition,

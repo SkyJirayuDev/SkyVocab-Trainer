@@ -15,7 +15,6 @@ interface FlashcardProps {
 }
 
 export default function Flashcard({
-  wordId,
   word,
   translation,
   partOfSpeech,
