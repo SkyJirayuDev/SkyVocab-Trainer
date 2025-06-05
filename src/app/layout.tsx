@@ -3,6 +3,10 @@ import './globals.css'
 export const metadata = {
   title: 'SkyVocab Trainer',
   description: 'A personal vocabulary training web app',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
 }
 
 export default function RootLayout({
