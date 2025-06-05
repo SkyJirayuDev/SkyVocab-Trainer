@@ -71,18 +71,23 @@ export default function Home() {
       <div className="text-center space-y-4">
         <div className="flex items-center justify-center gap-4 mb-2 mt-2">
           <FaRocket className="text-5xl text-blue-400 drop-shadow-lg animate-pulse" />
-          <div>
-            <h1 className="text-5xl font-extrabold bg-gradient-to-r from-blue-400 via-purple-400 to-green-400 bg-clip-text text-transparent drop-shadow-2xl">
-              SkyVocab
-            </h1>
-            <div className="flex items-center justify-center gap-2 mt-2">
-              <FaStar className="text-yellow-400 text-sm" />
-              <p className="text-slate-300 text-lg font-medium">
-                Train your words like a hero!
-              </p>
-              <FaStar className="text-yellow-400 text-sm" />
+          <div className="flex flex-col items-center">
+            <img
+              src="/logo.png"
+              alt="SkyVocab Logo"
+              className="w-40 h-40 rounded-xl shadow-md"
+            />
+            <div>
+              <div className="flex items-center justify-center gap-2 mt-2">
+                <FaStar className="text-yellow-400 text-sm" />
+                <p className="text-slate-300 text-sm font-medium">
+                  Train your words like a hero!
+                </p>
+                <FaStar className="text-yellow-400 text-sm" />
+              </div>
             </div>
           </div>
+
           <FaTrophy className="text-5xl text-yellow-400 drop-shadow-lg animate-pulse" />
         </div>
       </div>
