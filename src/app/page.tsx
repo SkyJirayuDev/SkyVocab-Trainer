@@ -6,6 +6,7 @@ import LevelChart from "@/components/quiz/LevelChart";
 import { useRouter } from "next/navigation";
 import RewardPopup from "@/components/quiz/RewardPopup";
 import { FaRocket, FaTrophy, FaStar } from "react-icons/fa";
+import Image from "next/image";
 
 interface LevelData {
   level: string;
@@ -72,11 +73,7 @@ export default function Home() {
         <div className="flex items-center justify-center gap-4 mb-2 mt-2">
           <FaRocket className="text-5xl text-blue-400 drop-shadow-lg animate-pulse" />
           <div className="flex flex-col items-center">
-            <img
-              src="/logo.png"
-              alt="SkyVocab Logo"
-              className="w-36 h-36 rounded-xl shadow-md"
-            />
+            <Image src="/logo.png" alt="SkyVocab Logo" width={120} height={120} className="rounded-xl shadow-md" />
             <div>
               <div className="flex items-center justify-center gap-2 mt-2">
                 <FaStar className="text-yellow-400 text-sm" />
@@ -167,6 +164,17 @@ export default function Home() {
               transition-all duration-300 ease-out hover:scale-105 active:scale-95"
           >
             ➕ Add Word
+          </button>
+          <button
+            onClick={() => router.push("/stats")}
+            className="w-full px-6 py-3 text-lg font-bold text-white 
+    bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 
+    border border-gray-700 rounded-xl shadow-2xl
+    hover:bg-gradient-to-br hover:from-blue-500 hover:to-blue-600 
+    hover:border-blue-500/50 hover:shadow-[0_6px_24px_rgba(59,130,246,0.3)]
+    transition-all duration-300 ease-out hover:scale-105 active:scale-95"
+          >
+            📊 Stats Overview
           </button>
         </div>
       </div>

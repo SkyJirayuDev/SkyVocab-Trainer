@@ -5,13 +5,8 @@ import Word from '@/models/word'
 export async function POST(req: Request) {
   try {
     await connectDB()
-
     const body = await req.json()
-
-    const updates = body.results as {
-      _id: string
-      score: number
-    }[]
+    const updates = body.results as { _id: string; score: number }[]
 
     const today = new Date()
 
@@ -20,25 +15,51 @@ export async function POST(req: Request) {
       if (!word) return
 
       const currentLevel = word.level || 1
-      let newLevel = currentLevel
+      const currentScore = word.score || 0
+      const incorrectCount = word.incorrectCount || 0
 
-      if (score >= 3) {
-        newLevel = Math.min(5, currentLevel + 1)
-      } else if (score <= 1) {
-        newLevel = Math.max(1, currentLevel - 1)
+      // Accumulate score for this word
+      const newScore = currentScore + score
+      let newLevel = currentLevel
+      let resetScore = false
+      let newIncorrectCount = incorrectCount
+
+      // Increase level if score threshold is reached
+      if (newScore >= 6 && currentLevel < 5) {
+        newLevel += 1
+        resetScore = true
+        newIncorrectCount = 0
+      }
+      // Decrease level if score is too low and user struggles repeatedly
+      else if (newScore <= 1 && incorrectCount >= 2 && currentLevel > 1) {
+        newLevel -= 1
+        resetScore = true
+        newIncorrectCount = 0
       }
 
+      // Spaced Interval Mapping: Set review delay based on level
+      const intervalMap: Record<number, number> = {
+        1: 1,   // 1 day
+        2: 3,   // 3 days
+        3: 7,   // 7 days
+        4: 14,  // 14 days
+        5: 30,  // 30 days
+      }
       const nextReviewDate = new Date()
-      nextReviewDate.setDate(today.getDate() + newLevel)
+      nextReviewDate.setDate(today.getDate() + intervalMap[newLevel])
 
+      // Increment incorrectCount if the score is too low this round
+      if (score < 3) {
+        newIncorrectCount += 1
+      }
+
+      // Update the word record in the database
       await Word.findByIdAndUpdate(_id, {
         level: newLevel,
+        score: resetScore ? 0 : newScore,
+        incorrectCount: newIncorrectCount,
         lastReviewedDate: today,
         nextReviewDate,
-        incorrectCount:
-          score < 3
-            ? (word.incorrectCount || 0) + 1
-            : word.incorrectCount || 0,
       })
     })
 

@@ -10,14 +10,15 @@ SkyVocab Trainer is a web-based vocabulary trainer designed to help learners ret
 
 ## 📸 Preview Screenshot
 
-<img src="public/skyvocab-home.png" width="400" alt="SkyVocab Trainer Preview" />
-<img src="public/img/flashcard-1.png" width="400" alt="SkyVocab Trainer Preview" />
-<img src="public/img/flashcard-2.png" width="400" alt="SkyVocab Trainer Preview" />
-<img src="public/img/multiple-choice.png" width="400" alt="SkyVocab Trainer Preview" />
-<img src="public/img/fill.png" width="400" alt="SkyVocab Trainer Preview" />
-<img src="public/img/typing.png" width="400" alt="SkyVocab Trainer Preview" />
-<img src="public/img/listening.png" width="400" alt="SkyVocab Trainer Preview" />
-<img src="public/img/popups-indicating.png" width="400" alt="SkyVocab Trainer Preview" />
+<img src="public/skyvocab-home.png" width="400" alt="Home Screen" />
+<img src="public/img/flashcard-1.png" width="400" alt="Flashcard - Front" />
+<img src="public/img/flashcard-2.png" width="400" alt="Flashcard - Answer" />
+<img src="public/img/multiple-choice.png" width="400" alt="Multiple Choice" />
+<img src="public/img/fill.png" width="400" alt="Fill in the Blank" />
+<img src="public/img/typing.png" width="400" alt="Typing Quiz" />
+<img src="public/img/listening.png" width="400" alt="Listening Quiz" />
+<img src="public/img/popups-indicating.png" width="400" alt="Answer Feedback" />
+<img src="public/img/stats.png" width="400" alt="Stats Dashboard" />
 
 ## 📌 Features
 
@@ -31,6 +32,10 @@ SkyVocab Trainer is a web-based vocabulary trainer designed to help learners ret
   - Each word has a level (1–5) and `nextReviewDate`  
   - Automatic selection of words due for review today  
   - Distribution: ~50–60% from levels 1–2, ~25–30% from level 3, ~10–20% from levels 4–5  
+- Vocabulary Stats Dashboard  
+  - View all saved words with their current level, score, and part of speech  
+  - Sort by columns (word, level, score, etc.) and search by keyword or translation  
+  - Smooth animations when toggling between compact view (10 words) and full list  
 - Repeat Review mode for on-demand practice across all levels  
 - Word-level score accumulation  
   - Each quiz type awards points per correct answer  
