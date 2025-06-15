@@ -11,7 +11,7 @@ export default function DuplicateWordPopup({
   onClose,
 }: DuplicateWordPopupProps) {
   useEffect(() => {
-    const sound = new Audio("/sounds/incorrect.mp3") // เพิ่มเสียงเตือนไว้ที่ public
+    const sound = new Audio("/sounds/incorrect.mp3") 
     sound.play()
 
     const timer = setTimeout(() => {
@@ -23,7 +23,7 @@ export default function DuplicateWordPopup({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="rounded-xl shadow-2xl p-8 w-[90%] max-w-md text-center transition-all duration-300 
+      <div className="rounded-xl p-8 w-[90%] max-w-md text-center transition-all duration-300 
         bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border border-yellow-500/50 shadow-[0_0_30px_rgba(253,224,71,0.2)]"
       >
         <h2 className="text-3xl font-bold text-yellow-400 mb-4">⚠️ Word Exists</h2>

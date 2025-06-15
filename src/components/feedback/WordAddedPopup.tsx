@@ -25,7 +25,7 @@ export default function WordAddedPopup({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="rounded-xl shadow-2xl p-8 w-[90%] max-w-md text-center transition-all duration-300 
+      <div className="rounded-xl p-8 w-[90%] max-w-md text-center transition-all duration-300 
         bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border border-green-500/50 shadow-[0_0_30px_rgba(34,197,94,0.2)]"
       >
         <h2 className="text-3xl font-bold text-green-400 mb-4">✅ Word Added!</h2>
