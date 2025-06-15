@@ -97,7 +97,7 @@ export default function AddWordPage() {
       return;
     }
 
-    const result = await addWord({
+    await addWord({
       english: english.trim().toLowerCase(),
       thai: thai.trim(),
       definition: capitalizeFirst(definition.trim()),
