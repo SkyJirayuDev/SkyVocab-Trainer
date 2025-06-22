@@ -11,6 +11,7 @@ export async function addWord({
   example2,
   partOfSpeech,
   category,
+  customCategory,
 }: {
   english: string;
   thai: string;
@@ -19,6 +20,7 @@ export async function addWord({
   example2: string;
   partOfSpeech: string;
   category: string;
+  customCategory?: string;
 }) {
   try {
     await connectDB();
@@ -32,6 +34,7 @@ export async function addWord({
       examples: [example1, example2],
       partOfSpeech,
       category,
+      customCategory,
       level: 1,
       nextReviewDate: now,
       lastReviewedDate: now,

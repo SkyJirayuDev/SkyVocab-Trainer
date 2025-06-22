@@ -11,7 +11,8 @@ export interface IWord extends Document {
   lastReviewedDate: Date;
   incorrectCount: number;
   definition?: string;
-  score: number; 
+  score: number;
+  customCategory?: string;
 }
 
 const wordSchema = new Schema<IWord>(
@@ -51,6 +52,10 @@ const wordSchema = new Schema<IWord>(
     category: {
       type: String,
       required: true,
+    },
+    customCategory: {
+      type: String,
+      required: false,
     },
     level: {
       type: Number,
