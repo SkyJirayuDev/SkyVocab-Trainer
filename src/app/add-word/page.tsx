@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { addWord, checkWordExists } from "./action";
 import WordAddedPopup from "@/components/feedback/WordAddedPopup";
 import DuplicateWordPopup from "@/components/feedback/DuplicateWordPopup";
@@ -32,7 +33,7 @@ export default function AddWordPage() {
 
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [showDuplicatePopup, setShowDuplicatePopup] = useState(false);
-
+  const router = useRouter();
   const [errors, setErrors] = useState({
     english: "",
     thai: "",
@@ -45,7 +46,8 @@ export default function AddWordPage() {
 
   const isEnglish = (text: string) => /^[A-Za-z0-9\s.,'"!?;:()\-]+$/.test(text);
   const isThai = (text: string) => /^[\u0E00-\u0E7F\s,]+$/.test(text);
-  const isValidCustomCategory = (text: string) => /^[a-zA-Z]+$/.test(text.trim());
+  const isValidCustomCategory = (text: string) =>
+    /^[a-zA-Z]+$/.test(text.trim());
 
   const capitalizeFirstAndDot = (text: string) => {
     const trimmed = text.trim();
@@ -57,7 +59,9 @@ export default function AddWordPage() {
   const validateField = (field: string, value: string) => {
     let message = "";
     if (
-      ["english", "definition", "category", "example1", "example2"].includes(field)
+      ["english", "definition", "category", "example1", "example2"].includes(
+        field
+      )
     ) {
       if (value && !isEnglish(value))
         message = "Only English characters are allowed.";
@@ -154,8 +158,12 @@ export default function AddWordPage() {
     <div className="min-h-screen px-4 py-6 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       <div className="max-w-md mx-auto bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white shadow-2xl rounded-2xl p-6 border border-gray-700">
         <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold text-white mb-2">📚 Add New Word</h1>
-          <p className="text-gray-400 text-sm">Expand your vocabulary collection</p>
+          <h1 className="text-2xl font-bold text-white mb-2">
+            📚 Add New Word
+          </h1>
+          <p className="text-gray-400 text-sm">
+            Expand your vocabulary collection
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -175,7 +183,9 @@ export default function AddWordPage() {
               className="w-full rounded-lg border border-gray-600 bg-gray-800/50 p-3 text-sm text-white"
               placeholder="Enter English word..."
             />
-            {errors.english && <p className="text-sm text-red-400 mt-1">{errors.english}</p>}
+            {errors.english && (
+              <p className="text-sm text-red-400 mt-1">{errors.english}</p>
+            )}
           </div>
 
           <div>
@@ -194,7 +204,9 @@ export default function AddWordPage() {
               className="w-full rounded-lg border border-gray-600 bg-gray-800/50 p-3 text-sm text-white"
               placeholder="ใส่คำแปลภาษาไทย..."
             />
-            {errors.thai && <p className="text-sm text-red-400 mt-1">{errors.thai}</p>}
+            {errors.thai && (
+              <p className="text-sm text-red-400 mt-1">{errors.thai}</p>
+            )}
           </div>
 
           <div>
@@ -212,7 +224,9 @@ export default function AddWordPage() {
               placeholder="e.g. Showing courage in the face of danger."
               className="w-full rounded-lg border border-gray-600 bg-gray-800/50 p-3 text-sm text-white"
             />
-            {errors.definition && <p className="text-sm text-red-400 mt-1">{errors.definition}</p>}
+            {errors.definition && (
+              <p className="text-sm text-red-400 mt-1">{errors.definition}</p>
+            )}
           </div>
 
           <div>
@@ -290,7 +304,9 @@ export default function AddWordPage() {
               className="w-full rounded-lg border border-gray-600 bg-gray-800/50 p-3 text-sm text-white"
               placeholder="First example sentence..."
             />
-            {errors.example1 && <p className="text-sm text-red-400 mt-1">{errors.example1}</p>}
+            {errors.example1 && (
+              <p className="text-sm text-red-400 mt-1">{errors.example1}</p>
+            )}
           </div>
 
           <div>
@@ -308,7 +324,9 @@ export default function AddWordPage() {
               className="w-full rounded-lg border border-gray-600 bg-gray-800/50 p-3 text-sm text-white"
               placeholder="Second example sentence..."
             />
-            {errors.example2 && <p className="text-sm text-red-400 mt-1">{errors.example2}</p>}
+            {errors.example2 && (
+              <p className="text-sm text-red-400 mt-1">{errors.example2}</p>
+            )}
           </div>
 
           <div className="flex gap-3">
@@ -331,6 +349,15 @@ export default function AddWordPage() {
               className="flex-1 bg-gray-700 text-white rounded-lg py-3 font-semibold hover:bg-gray-600 transition-all duration-300 shadow-md disabled:opacity-40"
             >
               ♻️ Reset
+            </button>
+          </div>
+          <div className="mt-6 text-center">
+            <button
+              type="button"
+              onClick={() => router.push("/add-word/upload")}
+              className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg font-semibold shadow-md transition-all"
+            >
+              📤 Upload CSV Instead
             </button>
           </div>
         </form>
