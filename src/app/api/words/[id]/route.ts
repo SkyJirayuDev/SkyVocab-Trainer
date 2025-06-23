@@ -4,11 +4,11 @@ import Word from "@/models/word";
 
 export async function PUT(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Record<string, string> }
 ) {
   try {
     await connectDB();
-    const { id } = context.params;
+    const id = context.params.id;
     const body = await req.json();
 
     await Word.findByIdAndUpdate(id, body, { new: true });
@@ -21,11 +21,11 @@ export async function PUT(
 
 export async function DELETE(
   _: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Record<string, string> }
 ) {
   try {
     await connectDB();
-    const { id } = context.params;
+    const id = context.params.id;
     await Word.findByIdAndDelete(id);
     return NextResponse.json({ message: "🗑️ Word deleted" });
   } catch (err) {
