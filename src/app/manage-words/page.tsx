@@ -16,15 +16,29 @@ interface Word {
 }
 
 const partOfSpeechOptions = [
-  "noun", "verb", "adjective", "adverb",
-  "preposition", "conjunction", "interjection",
-  "pronoun", "determiner"
+  "noun",
+  "verb",
+  "adjective",
+  "adverb",
+  "preposition",
+  "conjunction",
+  "interjection",
+  "pronoun",
+  "determiner",
 ];
 
 const categoryOptions = [
-  "personality", "emotion", "attitude", "work",
-  "communication", "daily life", "learning",
-  "behavior", "thinking", "appearance", "others"
+  "personality",
+  "emotion",
+  "attitude",
+  "work",
+  "communication",
+  "daily life",
+  "learning",
+  "behavior",
+  "thinking",
+  "appearance",
+  "others",
 ];
 
 export default function ManageWordsPage() {
@@ -37,18 +51,22 @@ export default function ManageWordsPage() {
       .then((data) => setWords(data));
   }, []);
 
-  const handleChange = (id: string, field: keyof Word, value: any) => {
+  type WordValue = string | number | boolean | undefined;
+  const handleChange = (id: string, field: keyof Word, value: WordValue) => {
     setWords((prev) =>
-      prev.map((w) =>
-        w._id === id ? { ...w, [field]: value } : w
-      )
+      prev.map((w) => (w._id === id ? { ...w, [field]: value } : w))
     );
   };
 
   const handleExampleChange = (id: string, index: number, value: string) => {
     setWords((prev) =>
       prev.map((w) =>
-        w._id === id ? { ...w, examples: w.examples.map((ex, i) => (i === index ? value : ex)) } : w
+        w._id === id
+          ? {
+              ...w,
+              examples: w.examples.map((ex, i) => (i === index ? value : ex)),
+            }
+          : w
       )
     );
   };
@@ -117,25 +135,99 @@ export default function ManageWordsPage() {
           <tbody>
             {filtered.map((w) => (
               <tr key={w._id} className="border-t border-gray-700">
-                <td className="p-2"><input className="bg-gray-800 p-1 rounded w-full" value={w.word} onChange={(e) => handleChange(w._id, "word", e.target.value)} /></td>
-                <td className="p-2"><input className="bg-gray-800 p-1 rounded w-full" value={w.translation} onChange={(e) => handleChange(w._id, "translation", e.target.value)} /></td>
-                <td className="p-2"><input className="bg-gray-800 p-1 rounded w-full" value={w.definition || ""} onChange={(e) => handleChange(w._id, "definition", e.target.value)} /></td>
-                <td className="p-2"><input className="bg-gray-800 p-1 rounded w-full" value={w.examples[0] || ""} onChange={(e) => handleExampleChange(w._id, 0, e.target.value)} /></td>
-                <td className="p-2"><input className="bg-gray-800 p-1 rounded w-full" value={w.examples[1] || ""} onChange={(e) => handleExampleChange(w._id, 1, e.target.value)} /></td>
                 <td className="p-2">
-                  <select className="bg-gray-800 p-1 rounded w-full" value={w.partOfSpeech} onChange={(e) => handleChange(w._id, "partOfSpeech", e.target.value)}>
-                    {partOfSpeechOptions.map((opt) => <option key={opt}>{opt}</option>)}
+                  <input
+                    className="bg-gray-800 p-1 rounded w-full"
+                    value={w.word}
+                    onChange={(e) =>
+                      handleChange(w._id, "word", e.target.value)
+                    }
+                  />
+                </td>
+                <td className="p-2">
+                  <input
+                    className="bg-gray-800 p-1 rounded w-full"
+                    value={w.translation}
+                    onChange={(e) =>
+                      handleChange(w._id, "translation", e.target.value)
+                    }
+                  />
+                </td>
+                <td className="p-2">
+                  <input
+                    className="bg-gray-800 p-1 rounded w-full"
+                    value={w.definition || ""}
+                    onChange={(e) =>
+                      handleChange(w._id, "definition", e.target.value)
+                    }
+                  />
+                </td>
+                <td className="p-2">
+                  <input
+                    className="bg-gray-800 p-1 rounded w-full"
+                    value={w.examples[0] || ""}
+                    onChange={(e) =>
+                      handleExampleChange(w._id, 0, e.target.value)
+                    }
+                  />
+                </td>
+                <td className="p-2">
+                  <input
+                    className="bg-gray-800 p-1 rounded w-full"
+                    value={w.examples[1] || ""}
+                    onChange={(e) =>
+                      handleExampleChange(w._id, 1, e.target.value)
+                    }
+                  />
+                </td>
+                <td className="p-2">
+                  <select
+                    className="bg-gray-800 p-1 rounded w-full"
+                    value={w.partOfSpeech}
+                    onChange={(e) =>
+                      handleChange(w._id, "partOfSpeech", e.target.value)
+                    }
+                  >
+                    {partOfSpeechOptions.map((opt) => (
+                      <option key={opt}>{opt}</option>
+                    ))}
                   </select>
                 </td>
                 <td className="p-2">
-                  <select className="bg-gray-800 p-1 rounded w-full" value={w.category} onChange={(e) => handleChange(w._id, "category", e.target.value)}>
-                    {categoryOptions.map((opt) => <option key={opt}>{opt}</option>)}
+                  <select
+                    className="bg-gray-800 p-1 rounded w-full"
+                    value={w.category}
+                    onChange={(e) =>
+                      handleChange(w._id, "category", e.target.value)
+                    }
+                  >
+                    {categoryOptions.map((opt) => (
+                      <option key={opt}>{opt}</option>
+                    ))}
                   </select>
                 </td>
-                <td className="p-2"><input className="bg-gray-800 p-1 rounded w-full" value={w.customCategory || ""} onChange={(e) => handleChange(w._id, "customCategory", e.target.value)} /></td>
+                <td className="p-2">
+                  <input
+                    className="bg-gray-800 p-1 rounded w-full"
+                    value={w.customCategory || ""}
+                    onChange={(e) =>
+                      handleChange(w._id, "customCategory", e.target.value)
+                    }
+                  />
+                </td>
                 <td className="p-2 flex gap-2">
-                  <button onClick={() => handleSave(w)} className="bg-blue-600 hover:bg-blue-500 text-white px-2 py-1 rounded"><Save className="w-4 h-4" /></button>
-                  <button onClick={() => handleDelete(w._id)} className="bg-red-600 hover:bg-red-500 text-white px-2 py-1 rounded"><Trash className="w-4 h-4" /></button>
+                  <button
+                    onClick={() => handleSave(w)}
+                    className="bg-blue-600 hover:bg-blue-500 text-white px-2 py-1 rounded"
+                  >
+                    <Save className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(w._id)}
+                    className="bg-red-600 hover:bg-red-500 text-white px-2 py-1 rounded"
+                  >
+                    <Trash className="w-4 h-4" />
+                  </button>
                 </td>
               </tr>
             ))}
