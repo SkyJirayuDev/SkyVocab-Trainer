@@ -4,7 +4,7 @@ import Word from "@/models/word";
 
 export async function PUT(
   req: NextRequest,
-  context: { params: Record<string, string> }
+  context: { params: { id: string } } 
 ) {
   try {
     await connectDB();
@@ -21,7 +21,7 @@ export async function PUT(
 
 export async function DELETE(
   _: NextRequest,
-  context: { params: Record<string, string> }
+  context: { params: { id: string } }
 ) {
   try {
     await connectDB();
